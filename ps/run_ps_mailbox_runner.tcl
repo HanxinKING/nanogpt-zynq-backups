@@ -4,6 +4,7 @@ set ps7_init "$nano/nano_gpt.gen/sources_1/bd/system/ip/system_processing_system
 set image_dir "$nano/generated/rtl_lut_board_ddr_image_20260525_195055"
 set emb_dir "$nano/generated/ps_ddr_embedding_tables"
 set elf "$nano/baremetal/ps_mailbox_runner/build/ps_mailbox_runner.elf"
+if {[info exists ::env(MAILBOX_ELF)]} { set elf $::env(MAILBOX_ELF) }
 
 set BIT "$nano/overlay/system/system.bit"
 if {[info exists ::env(BIT_FILE)]} { set BIT $::env(BIT_FILE) }

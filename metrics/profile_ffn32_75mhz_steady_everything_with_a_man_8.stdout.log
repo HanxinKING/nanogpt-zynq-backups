@@ -1,0 +1,48 @@
+
+****** Software Commandline Tool (XSCT) v2025.2.0
+  **** SW Build 6298600 on Thu Nov 13 01:12:30 MST 2025
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+
+Warning: XSCT is deprecated and will be removed in future releases.
+We recommend using the new Python command-line tool for project management and debugging:
+- Run "vitis -i" for interactive mode.
+- Run "vitis -s <script>" for script mode.
+TARGETS_BEFORE_RECOVER
+  1  APU
+     2  ARM Cortex-A9 MPCore #0 (Running)
+     3  ARM Cortex-A9 MPCore #1 (Running)
+  4  xc7z020
+TARGET1_RST_SYSTEM=
+TARGETS_AFTER_RECOVER
+  1* APU
+     2  ARM Cortex-A9 MPCore #0 (Running)
+     3  ARM Cortex-A9 MPCore #1 (Running)
+  4  xc7z020
+DOWNLOAD input base=0x10000000 file=F:/nanogpt_ZYNQ/nanogpt_ZYNQ/fpga/nano_gpt/generated/rtl_lut_board_ddr_image_20260525_195055/input.bin
+DOWNLOAD weights base=0x11000000 file=F:/nanogpt_ZYNQ/nanogpt_ZYNQ/fpga/nano_gpt/generated/rtl_lut_board_ddr_image_20260525_195055/weights.bin
+DOWNLOAD scales base=0x11c00000 file=F:/nanogpt_ZYNQ/nanogpt_ZYNQ/fpga/nano_gpt/generated/rtl_lut_board_ddr_image_20260525_195055/scales.bin
+DOWNLOAD golden_final base=0x12000000 file=F:/nanogpt_ZYNQ/nanogpt_ZYNQ/fpga/nano_gpt/generated/rtl_lut_board_ddr_image_20260525_195055/golden_final.bin
+DOWNLOAD luts base=0x12100000 file=F:/nanogpt_ZYNQ/nanogpt_ZYNQ/fpga/nano_gpt/generated/rtl_lut_board_ddr_image_20260525_195055/luts.bin
+DOWNLOAD quality_params base=0x12200000 file=F:/nanogpt_ZYNQ/nanogpt_ZYNQ/fpga/nano_gpt/generated/rtl_lut_board_ddr_image_20260525_195055/quality_params.bin
+ELF_HEAD        0:   EA000006
+       4:   EAFFFFFE
+       8:   EAFFFFFE
+       C:   EAFFFFFE
+
+PC_AFTER_DOW pc: 00000000
+
+PC_SET_0 
+PC_AFTER_SET pc: 00000000
+
+MAILBOX_CONFIG cmd=0 prompt=everything with a man
+CON_RESULT 
+POLL t=0 state=0x00000300 rc=0x00000000 status=0x00000000 full_status=0x00000000 stage=0x00000000 layer=0
+POLL t=6000 state=0x0000900d rc=0x00000000 status=0x00000009 full_status=0xf1170001 stage=0x000000ff layer=5
+PC_AFTER_STOP pc: 00001c04
+
+MAILBOX_RESULT magic=0x4e475054 state=0x0000900d rc=0x00000000 status=0x00000009 full_status=0xf1170001 stage=0x000000ff hls_sig=0x746d0002
+GENERATED_COUNT 8
+GENERATED_TOKENS 1 58 46 39 58 1 61 43
+GENERATED  that we

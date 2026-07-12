@@ -199,3 +199,17 @@ the board through JTAG. This instrumentation preserves model math, INT8 data,
 DDR addresses, K/V cache behavior, and the UART protocol. The committed
 performance result remains the separately verified 200-character run; no
 earlier FFN16 profile values are presented as FFN32 measurements.
+
+### 11.1 New Board Measurement
+
+On 2026-07-12, the final bitstream and final profiling runner were measured on
+the board using `everything with a man`. A 21-row prompt prefill took
+4,060.946 ms. At the last step of an eight-token K/V-cache run, the context
+was 28 rows with `row_start=27`; the measured compute path took 240.121 ms,
+or 4.165 characters/s. FFN consumed 141.985 ms (59.13%), Q/K/V/projection
+consumed 64.515 ms (26.88%), and attention consumed 21.811 ms (9.08%).
+
+The generated token sequence was `1 58 46 39 58 1 61 43`, decoded as
+` that we`. The no-profile baseline returned the same first token as the
+profiling runner under identical direct-mailbox conditions. See
+`metrics/ffn32_75mhz_stage_profile_20260712.md` for the raw tick breakdown.

@@ -42,3 +42,8 @@ The script creates a local `nano_gpt.xpr`, regenerates the Block Design, and val
 `ps/main.c` includes a final-FFN32 stage profiler. Build and run it through
 JTAG, then use `ps/read_decode_profile.tcl` to read the stage counts. See
 `ps/PROFILE_USAGE.md` for the mailbox map and conversion to milliseconds.
+
+Latest board measurement: with `everything with a man`, K/V-cache steady state
+at 28 context characters takes 240.121 ms per token (4.165 char/s). FFN takes
+141.985 ms, or 59.13% of this measured step. The full report is
+`metrics/ffn32_75mhz_stage_profile_20260712.md`.

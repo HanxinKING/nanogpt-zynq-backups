@@ -1,0 +1,19 @@
+
+****** Software Commandline Tool (XSCT) v2025.2.0
+  **** SW Build 6298600 on Thu Nov 13 01:12:30 MST 2025
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+
+Warning: XSCT is deprecated and will be removed in future releases.
+We recommend using the new Python command-line tool for project management and debugging:
+- Run "vitis -i" for interactive mode.
+- Run "vitis -s <script>" for script mode.
+PROFILE_CONTEXT active_rows=21 row_start=0 kv_incremental=0
+PROFILE layer=0 ln1=5485809 q=9698655 k=9705954 v=9705973 attention=10021615 projection=9705945 residual1=1489302 ln2=4459036 ffn=164183269 residual2=1488427
+PROFILE layer=1 ln1=4486794 q=9705940 k=9705963 v=9705965 attention=10021616 projection=9705952 residual1=1489383 ln2=4480792 ffn=164187745 residual2=1489392
+PROFILE layer=2 ln1=4477729 q=9705931 k=9705959 v=9705968 attention=10021622 projection=9705951 residual1=1490275 ln2=4453432 ffn=164183271 residual2=1491259
+PROFILE layer=3 ln1=4445494 q=9705943 k=9705959 v=9705974 attention=10021616 projection=9756348 residual1=1489954 ln2=7124145 ffn=164153567 residual2=1490155
+PROFILE layer=4 ln1=4438151 q=9705939 k=9705959 v=9705974 attention=10021616 projection=9705943 residual1=1488833 ln2=4442302 ffn=164174134 residual2=1490122
+PROFILE layer=5 ln1=4455302 q=9705940 k=9705963 v=9705974 attention=10021616 projection=9705948 residual1=1489633 ln2=4480156 ffn=164183272 residual2=1489504
+PROFILE lm_head=362412 embedding=0 guard_delay=46529 timer_control=0x00000001
