@@ -172,10 +172,11 @@ Which the seals of the sea of the world,
 ## 9. 复现和交付文件
 
 1. 下载 `nanogpt-zynq-final-20260712.zip`。
-2. 使用 `fpga/overlay/system/system.bit` 和 `system.hwh` 配置 PL。
-3. 使用 `ps/run_ps_mailbox_runner.tcl` 将 `fpga/ddr_image/` 中的权重、缩放参数、LUT 和 golden 数据下载到 DDR，并启动 `ps/ps_mailbox_runner.elf`。
-4. 串口设置为 115200, 8N1，输入 `200:everything with a man` 并发送回车。
-5. 对照 `tests/step3_ffn32_resetfix_200.raw.txt` 与 `artifacts/reports/optimization_123_results_20260712.md`。
+2. 如需重新综合，在 `vivado_project/` 中执行 `source scripts/create_final_75mhz_project.tcl`；该脚本会生成本地 `nano_gpt.xpr` 并验证 Block Design。
+3. 使用 `fpga/overlay/system/system.bit` 和 `system.hwh` 配置 PL。
+4. 使用 `ps/run_ps_mailbox_runner.tcl` 将 `fpga/ddr_image/` 中的权重、缩放参数、LUT 和 golden 数据下载到 DDR，并启动 `ps/ps_mailbox_runner.elf`。
+5. 串口设置为 115200, 8N1，输入 `200:everything with a man` 并发送回车。
+6. 对照 `tests/step3_ffn32_resetfix_200.raw.txt` 与 `artifacts/reports/optimization_123_results_20260712.md`。
 
 ## 10. 原始证据文件
 
@@ -184,4 +185,3 @@ Which the seals of the sea of the world,
 - `artifacts/reports/utilization_step3_ffn32_resetfix_true75_post_route.rpt`
 - `tests/step3_ffn32_resetfix_200.raw.txt`
 - `tests/step3_ffn32_resetfix_200.raw.events.txt`
-
