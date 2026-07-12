@@ -185,3 +185,17 @@ Which the seals of the sea of the world,
 - `artifacts/reports/utilization_step3_ffn32_resetfix_true75_post_route.rpt`
 - `tests/step3_ffn32_resetfix_200.raw.txt`
 - `tests/step3_ffn32_resetfix_200.raw.events.txt`
+
+## 11. Final FFN32 Stage Profiling
+
+The final PS runner now contains a non-intrusive stage profiler for the final
+75 MHz FFN32 implementation. It records per-layer `ln1`, `q`, `k`, `v`,
+`attention`, `projection`, `residual1`, `ln2`, `ffn`, and `residual2`, plus
+LM-head and embedding-update time. The timer runs at 333.333 MHz, so
+`milliseconds = ticks * 3 / 1,000,000`.
+
+Use `ps/PROFILE_USAGE.md` and `ps/read_decode_profile.tcl` after programming
+the board through JTAG. This instrumentation preserves model math, INT8 data,
+DDR addresses, K/V cache behavior, and the UART protocol. The committed
+performance result remains the separately verified 200-character run; no
+earlier FFN16 profile values are presented as FFN32 measurements.

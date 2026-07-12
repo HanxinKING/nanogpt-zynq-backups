@@ -56,6 +56,14 @@
 #define TOK_EMB_SCALE_Q30_BASE 0x13028000u
 #define POS_EMB_SCALE_Q30_BASE 0x13028400u
 #define MAILBOX_BASE       0x00020000u
+#define GLOBAL_TIMER_BASE  0xF8F00200u
+
+/* Profiling words are outside the normal command/result mailbox layout. */
+#define PROFILE_BASE_WORD  0x500u
+#define PROFILE_LAYER_WORDS 16u
+#define PROFILE_LM_WORD    0x560u
+#define PROFILE_EMBED_WORD 0x561u
+#define PROFILE_GUARD_WORD 0x562u
 
 #define UART_STATUS_RX_VALID 0x00000001u
 #define UART_STATUS_TX_READY 0x00000002u
@@ -110,6 +118,28 @@ static inline void barrier(void) { __asm__ volatile ("dsb sy\nisb sy" ::: "memor
 static uint32_t g_uart_console;
 static uint32_t g_active_rows = BLOCK_SIZE;
 static uint32_t g_row_start;
+
+static void mailbox_write(uint32_t index, uint32_t value);
+
+static uint64_t global_timer_read(void)
+{
+    uint32_t high_before;
+    uint32_t low;
+    uint32_t high_after;
+
+    do {
+        high_before = rd32(GLOBAL_TIMER_BASE + 4u);
+        low = rd32(GLOBAL_TIMER_BASE);
+        high_after = rd32(GLOBAL_TIMER_BASE + 4u);
+    } while (high_before != high_after);
+    return ((uint64_t)high_after << 32) | low;
+}
+
+static void profile_stage(uint32_t layer, uint32_t stage, uint64_t started)
+{
+    mailbox_write(PROFILE_BASE_WORD + layer * PROFILE_LAYER_WORDS + stage,
+                  (uint32_t)(global_timer_read() - started));
+}
 
 static void uart_init(void)
 {
@@ -465,39 +495,60 @@ static int run_layer(uint32_t layer)
     uint32_t v_cache = V_CACHE_BASE + (layer * KV_CACHE_STRIDE);
     uint32_t row_offset = g_row_start * D_MODEL;
     uint32_t row_count = g_active_rows - g_row_start;
+    uint64_t started;
     int rc;
 
     mailbox_write(8, layer);
     wr32(PL_BASE + REG_ATTN_LAYER, layer);
+    started = global_timer_read();
     ps_layernorm(input + row_offset, LN2BUF_BASE + row_offset,
                  BITTRUE_LN_COEFF_BASE + (layer * 2u) * BITTRUE_LN_STAGE_BYTES,
                  row_count);
+    profile_stage(layer, 0u, started);
+    started = global_timer_read();
     rc = run_mode(MODE_MATMUL_LN, LN2BUF_BASE, QBUF_BASE, wbase + OFF_WQ, 0u,
                   DEBUG_BASE + 1u, 0x3u, 0u, 0u, 0u);
+    profile_stage(layer, 1u, started);
     if (rc) return rc;
+    started = global_timer_read();
     rc = run_mode(MODE_MATMUL_LN, LN2BUF_BASE, k_cache, wbase + OFF_WK, 0u,
                   DEBUG_BASE + 2u, 0x3u, 0u, 0u, 0u);
+    profile_stage(layer, 2u, started);
     if (rc) return rc;
+    started = global_timer_read();
     rc = run_mode(MODE_MATMUL_LN, LN2BUF_BASE, v_cache, wbase + OFF_WV, 0u,
                   DEBUG_BASE + 3u, 0x3u, 0u, 0u, 0u);
+    profile_stage(layer, 3u, started);
     if (rc) return rc;
+    started = global_timer_read();
     rc = run_attn(layer, k_cache, v_cache);
+    profile_stage(layer, 4u, started);
     if (rc) return rc;
+    started = global_timer_read();
     rc = run_mode(MODE_PROJ_ONLY, ATTNBUF_BASE, RES1BUF_BASE, wbase + OFF_WO,
                   0u, 0u, 0xfu, 0u, 0u, 0u);
+    profile_stage(layer, 5u, started);
     if (rc) return rc;
+    started = global_timer_read();
     ps_residual_add(input + row_offset, RES1BUF_BASE + row_offset,
                     RES1BUF_BASE + row_offset, row_count,
                     g_res1_input_mult_q30[layer], g_res1_proj_mult_q30[layer]);
+    profile_stage(layer, 6u, started);
+    started = global_timer_read();
     ps_layernorm(RES1BUF_BASE + row_offset, LN2BUF_BASE + row_offset,
                  BITTRUE_LN_COEFF_BASE + (layer * 2u + 1u) * BITTRUE_LN_STAGE_BYTES,
                  row_count);
+    profile_stage(layer, 7u, started);
+    started = global_timer_read();
     rc = run_mode(MODE_FFN_ONLY, LN2BUF_BASE, output, wbase + OFF_W1,
                   0u, 0u, 0x3fu, 0u, 0u, 0u);
+    profile_stage(layer, 8u, started);
     if (rc) return rc;
+    started = global_timer_read();
     ps_residual_add(RES1BUF_BASE + row_offset, output + row_offset,
                     output + row_offset, row_count,
                     g_final_res1_mult_q30[layer], g_final_ffn_mult_q30[layer]);
+    profile_stage(layer, 9u, started);
     return 0;
 }
 
@@ -601,6 +652,7 @@ static int generate_greedy(uint16_t *tokens, uint32_t n, uint32_t max_new_tokens
     uint32_t generated = 0u;
     uint32_t row_start = 0u;
     uint32_t embed_max;
+    uint64_t started;
 
     if (max_new_tokens == 0u || max_new_tokens > MAX_NEW_TOKENS) {
         max_new_tokens = DEFAULT_MAX_NEW_TOKENS;
@@ -625,7 +677,9 @@ static int generate_greedy(uint16_t *tokens, uint32_t n, uint32_t max_new_tokens
         }
 
         /* A causal LM predicts the next character from the last valid row. */
+        started = global_timer_read();
         rc = pl_lm_head_argmax_row(LAYER_A_BASE + ((n - 1u) * D_MODEL), &tok);
+        mailbox_write(PROFILE_LM_WORD, (uint32_t)(global_timer_read() - started));
         if (rc != 0) {
             mailbox_write(11u, generated);
             mailbox_write(12u, n);
@@ -640,6 +694,7 @@ static int generate_greedy(uint16_t *tokens, uint32_t n, uint32_t max_new_tokens
 
         if (generated < max_new_tokens && n < BLOCK_SIZE) {
             uint32_t next_max = embedding_max_abs(tokens, n);
+            started = global_timer_read();
             if (next_max == embed_max) {
                 row_start = n - 1u;
                 build_hidden_range_scaled(tokens, n, row_start, 1u, next_max);
@@ -649,6 +704,7 @@ static int generate_greedy(uint16_t *tokens, uint32_t n, uint32_t max_new_tokens
                 build_hidden_range_scaled(tokens, n, 0u, n, next_max);
                 embed_max = next_max;
             }
+            mailbox_write(PROFILE_EMBED_WORD, (uint32_t)(global_timer_read() - started));
         }
     }
 
@@ -733,7 +789,15 @@ int main(void)
     uint32_t cmd = mailbox_read(9);
     uint32_t max_new_tokens = mailbox_read(10);
     uint32_t i;
+    uint64_t guard_started;
     int rc;
+
+    wr32(GLOBAL_TIMER_BASE + 8u, rd32(GLOBAL_TIMER_BASE + 8u) | 1u);
+    barrier();
+    guard_started = global_timer_read();
+    delay_cycles(START_GUARD_CYCLES);
+    mailbox_write(PROFILE_GUARD_WORD,
+                  (uint32_t)(global_timer_read() - guard_started));
 
     /* UART-console boot is selected by a cleared mailbox word 2. */
     if (n == 0u) uart_console();

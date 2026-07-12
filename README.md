@@ -36,3 +36,9 @@ source scripts/create_final_75mhz_project.tcl
 ```
 
 The script creates a local `nano_gpt.xpr`, regenerates the Block Design, and validates the DDR/AXI connection graph at 75 MHz. It was executed successfully before publishing this release.
+
+## Performance Profiling
+
+`ps/main.c` includes a final-FFN32 stage profiler. Build and run it through
+JTAG, then use `ps/read_decode_profile.tcl` to read the stage counts. See
+`ps/PROFILE_USAGE.md` for the mailbox map and conversion to milliseconds.
