@@ -1,0 +1,26 @@
+{
+  "kind": "bittrue_fixed_eval",
+  "blocks": 8,
+  "seed": 1337,
+  "starts": [
+    60796,
+    97717,
+    80903,
+    20646,
+    60115,
+    102480,
+    43569,
+    105336
+  ],
+  "fp32_loss": 1.5762447267770767,
+  "int8_loss": 1.628690412975537,
+  "fp32_ppl": 4.836758315350734,
+  "int8_ppl": 5.097195125139901,
+  "ppl_regression_pct": 5.384532217841078,
+  "logits_mean_abs_error": 0.34456792432327565,
+  "top1_match": 1837,
+  "top1_total": 2048,
+  "top1_match_ratio": 0.89697265625,
+  "elapsed_s": 37.7712333,
+  "pass_10pct": true
+}
