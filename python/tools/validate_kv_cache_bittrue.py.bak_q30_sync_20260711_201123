@@ -1,0 +1,363 @@
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+from typing import Any
+
+import numpy as np
+
+from simulate_bittrue_dynamic_int8 import (
+    D_MODEL,
+    HEAD_DIM,
+    NANOGPT_ROOT,
+    N_HEAD,
+    REPO_ROOT,
+    SEQ_LEN,
+    BitTrueModel,
+    compare_i8,
+    quant_fixed,
+)
+
+
+def attention_row_hardware(
+    model: BitTrueModel,
+    q_row: np.ndarray,
+    k_cache: np.ndarray,
+    v_cache: np.ndarray,
+    layer: int,
+) -> np.ndarray:
+    q = q_row.astype(np.int64).reshape(1, N_HEAD, HEAD_DIM)
+    k = k_cache.astype(np.int64).reshape(k_cache.shape[0], N_HEAD, HEAD_DIM)
+    v = v_cache.astype(np.int64).reshape(v_cache.shape[0], N_HEAD, HEAD_DIM)
+    out = np.zeros((1, N_HEAD, HEAD_DIM), dtype=np.int8)
+    score_mult = int(model.attention_score_q16[layer])
+    out_mult = int(model.attention_out_mult_q30[layer])
+
+    for head in range(N_HEAD):
+        scores = k[:, head] @ q[0, head]
+        diff = int(scores.max()) - scores
+        indices = np.clip((diff * score_mult + (1 << 15)) >> 16, 0, 255)
+        weights = model.attention_exp_q6[indices].copy()
+        weights[diff == 0] = 63
+        denominator = int(weights.sum())
+        weighted = weights @ v[:, head]
+        divisor = denominator << 30
+        scaled = weighted.astype(np.int64) * out_mult
+        rounded = (np.abs(scaled) + (divisor >> 1)) // divisor
+        rounded = np.where(scaled < 0, -rounded, rounded)
+        out[0, head] = np.clip(rounded, -128, 127).astype(np.int8)
+    return out.reshape(1, D_MODEL)
+
+
+def embedding_hardware_details(
+    model: BitTrueModel, tokens: np.ndarray
+) -> tuple[np.ndarray, int, int, int]:
+    token_terms = (
+        model.token_embedding_q[tokens].astype(np.int64)
+        * model.token_embedding_scale_q30[tokens, None]
+    )
+    position_terms = (
+        model.position_embedding_q.astype(np.int64)
+        * model.position_embedding_scale_q30[:, None]
+    )
+    hidden_q30 = token_terms + position_terms
+    flat_index = int(np.abs(hidden_q30).argmax())
+    row, dim = np.unravel_index(flat_index, hidden_q30.shape)
+    max_abs = max(int(np.abs(hidden_q30).max()), 1)
+    return model.embeddings_hardware(tokens), max_abs, int(row), int(dim)
+
+
+def append_cache(cache: np.ndarray, row: np.ndarray) -> np.ndarray:
+    return np.concatenate((cache, np.ascontiguousarray(row, dtype=np.int8)), axis=0)
+
+
+def dump_i8(path: Path, values: np.ndarray) -> None:
+    data = np.ascontiguousarray(values, dtype=np.int8)
+    path.with_suffix(".bin").write_bytes(data.tobytes())
+    path.with_suffix(".mem").write_text(
+        "".join(f"{int(value) & 0xff:02x}\n" for value in data.reshape(-1)),
+        encoding="ascii",
+    )
+
+
+def run_incremental_row(
+    model: BitTrueModel,
+    x_row: np.ndarray,
+    k_caches: list[np.ndarray],
+    v_caches: list[np.ndarray],
+    fixed_scales: dict[str, float],
+    full_result: dict[str, Any],
+    row_index: int,
+) -> tuple[np.ndarray, list[dict[str, Any]], dict[str, np.ndarray]]:
+    comparisons: list[dict[str, Any]] = []
+    rows: dict[str, np.ndarray] = {"embedding": x_row.copy()}
+
+    for layer in range(6):
+        prefix = f"layer_{layer:02d}"
+        block = model.fp32_model.transformer.h[layer]
+        del block
+        c_attn_name = f"transformer.h.{layer}.attn.c_attn"
+        qkv_weight, qkv_weight_scale, qkv_activation_scale = model.module_arrays(c_attn_name)
+        ln1_row = model.layernorm_hardware(x_row, layer * 2)
+        rows[f"{prefix}_qkv_in"] = ln1_row.copy()
+
+        q_row, _, _ = model.linear_dynamic(
+            ln1_row,
+            qkv_weight[:D_MODEL],
+            qkv_weight_scale[:D_MODEL],
+            qkv_activation_scale,
+            fixed_scales[f"{prefix}.q"],
+        )
+        k_row, _, _ = model.linear_dynamic(
+            ln1_row,
+            qkv_weight[D_MODEL : 2 * D_MODEL],
+            qkv_weight_scale[D_MODEL : 2 * D_MODEL],
+            qkv_activation_scale,
+            fixed_scales[f"{prefix}.k"],
+        )
+        v_row, _, _ = model.linear_dynamic(
+            ln1_row,
+            qkv_weight[2 * D_MODEL :],
+            qkv_weight_scale[2 * D_MODEL :],
+            qkv_activation_scale,
+            fixed_scales[f"{prefix}.v"],
+        )
+        k_caches[layer] = append_cache(k_caches[layer], k_row)
+        v_caches[layer] = append_cache(v_caches[layer], v_row)
+        attn_row = attention_row_hardware(
+            model, q_row, k_caches[layer], v_caches[layer], layer
+        )
+
+        proj_name = f"transformer.h.{layer}.attn.c_proj"
+        proj_weight, proj_weight_scale, proj_activation_scale = model.module_arrays(proj_name)
+        proj_acc = attn_row.astype(np.int32) @ proj_weight.astype(np.int32).T
+        proj_real = (
+            proj_acc.astype(np.float64)
+            * float(proj_activation_scale)
+            * proj_weight_scale.reshape(1, -1)
+        )
+        proj_row = quant_fixed(proj_real, fixed_scales[f"{prefix}.attn_proj"])
+        residual_params = model.hardware_manifest["residuals"][prefix]
+        res1_row = model.residual_hardware(
+            x_row,
+            proj_row,
+            int(residual_params["res1_input_mult_q30"]),
+            int(residual_params["res1_proj_mult_q30"]),
+        )
+
+        fc_name = f"transformer.h.{layer}.mlp.c_fc"
+        fc_weight, fc_weight_scale, fc_activation_scale = model.module_arrays(fc_name)
+        ln2_row = model.layernorm_hardware(res1_row, layer * 2 + 1)
+        fc_acc = ln2_row.astype(np.int32) @ fc_weight.astype(np.int32).T
+        fc_real = (
+            fc_acc.astype(np.float64)
+            * float(fc_activation_scale)
+            * fc_weight_scale.reshape(1, -1)
+        )
+        gelu_input_row = quant_fixed(fc_real, model.gelu_scale)
+        gelu_row = model.gelu_lut[gelu_input_row.astype(np.int16) + 128]
+
+        ffn_name = f"transformer.h.{layer}.mlp.c_proj"
+        ffn_weight, ffn_weight_scale, _ = model.module_arrays(ffn_name)
+        ffn_acc = gelu_row.astype(np.int32) @ ffn_weight.astype(np.int32).T
+        ffn_real = (
+            ffn_acc.astype(np.float64)
+            * float(model.gelu_scale)
+            * ffn_weight_scale.reshape(1, -1)
+        )
+        ffn_row = quant_fixed(ffn_real, fixed_scales[f"{prefix}.ffn"])
+        final_row = model.residual_hardware(
+            res1_row,
+            ffn_row,
+            int(residual_params["final_res1_mult_q30"]),
+            int(residual_params["final_ffn_mult_q30"]),
+        )
+
+        candidates = {
+            "qkv_in": ln1_row,
+            "q": q_row,
+            "k": k_row,
+            "v": v_row,
+            "attn_in": attn_row,
+            "attn_proj": proj_row,
+            "res1": res1_row,
+            "ln2_in": ln2_row,
+            "ffn": ffn_row,
+            "final": final_row,
+        }
+        for stage, candidate in candidates.items():
+            reference = full_result["stage_i8"][f"{prefix}_{stage}"][row_index : row_index + 1]
+            result = compare_i8(reference, candidate)
+            result.update({"layer": layer, "stage": stage, "row": row_index})
+            comparisons.append(result)
+            rows[f"{prefix}_{stage}"] = candidate.copy()
+        x_row = final_row
+
+    return x_row, comparisons, rows
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Validate hardware-exact DDR KV cache decode.")
+    parser.add_argument("--prompt", default="hello world")
+    parser.add_argument("--new-tokens", type=int, default=8)
+    parser.add_argument("--dataset", default="shakespeare_char")
+    parser.add_argument("--ckpt", type=Path, default=NANOGPT_ROOT / "out-shakespeare-char" / "ckpt.pt")
+    parser.add_argument(
+        "--int8-state",
+        type=Path,
+        default=NANOGPT_ROOT / "out-shakespeare-char" / "int8_reference" / "int8_state_dict.pt",
+    )
+    parser.add_argument(
+        "--fixed-scales",
+        type=Path,
+        default=REPO_ROOT
+        / "fpga"
+        / "nano_gpt"
+        / "generated"
+        / "int8_alignment"
+        / "bittrue_fixed_global_gelu"
+        / "summary.json",
+    )
+    parser.add_argument(
+        "--out-dir",
+        type=Path,
+        default=REPO_ROOT
+        / "fpga"
+        / "nano_gpt"
+        / "generated"
+        / "int8_alignment"
+        / "kv_cache_reference",
+    )
+    return parser.parse_args()
+
+
+def main() -> None:
+    args = parse_args()
+    if args.new_tokens < 1 or args.new_tokens > SEQ_LEN - len(args.prompt):
+        raise ValueError("new token count exceeds model context")
+
+    model = BitTrueModel(args.ckpt, args.int8_state, args.dataset)
+    scale_document = json.loads(args.fixed_scales.read_text(encoding="utf-8"))
+    fixed_scales = {
+        name: float(value) for name, value in scale_document["first_step_scales"].items()
+    }
+    prompt_tokens = [int(model.stoi[ch]) for ch in args.prompt]
+    generated: list[int] = []
+    embedding_maxima: list[dict[str, int]] = []
+    all_comparisons: list[dict[str, Any]] = []
+
+    tokens = np.full((SEQ_LEN,), int(model.stoi[" "]), dtype=np.int64)
+    tokens[: len(prompt_tokens)] = np.asarray(prompt_tokens, dtype=np.int64)
+    embeddings, max_abs, max_row, max_dim = embedding_hardware_details(model, tokens)
+    embedding_maxima.append(
+        {"context": len(prompt_tokens), "max_abs_q30": max_abs, "row": max_row, "dim": max_dim}
+    )
+    prefill = model.run_block(tokens, fixed_scales=fixed_scales)
+    k_caches = [
+        prefill["stage_i8"][f"layer_{layer:02d}_k"][: len(prompt_tokens)].copy()
+        for layer in range(6)
+    ]
+    v_caches = [
+        prefill["stage_i8"][f"layer_{layer:02d}_v"][: len(prompt_tokens)].copy()
+        for layer in range(6)
+    ]
+
+    first_token = int(prefill["argmax"][len(prompt_tokens) - 1])
+    generated.append(first_token)
+    print(f"step=0 mode=prefill token={first_token} char={model.itos[first_token]!r}")
+    first_decode_rows: dict[str, np.ndarray] | None = None
+
+    for step in range(1, args.new_tokens):
+        context = prompt_tokens + generated
+        row_index = len(context) - 1
+        tokens.fill(int(model.stoi[" "]))
+        tokens[: len(context)] = np.asarray(context, dtype=np.int64)
+        embeddings, max_abs, max_row, max_dim = embedding_hardware_details(model, tokens)
+        embedding_maxima.append(
+            {"context": len(context), "max_abs_q30": max_abs, "row": max_row, "dim": max_dim}
+        )
+        full_result = model.run_block(tokens, fixed_scales=fixed_scales)
+        cached_final, comparisons, rows = run_incremental_row(
+            model,
+            embeddings[row_index : row_index + 1],
+            k_caches,
+            v_caches,
+            fixed_scales,
+            full_result,
+            row_index,
+        )
+        all_comparisons.extend(comparisons)
+        if first_decode_rows is None:
+            first_decode_rows = rows
+
+        ln_f_row = model.layernorm_hardware(cached_final, 12)
+        lm_weight, _, _ = model.module_arrays("lm_head")
+        logits_acc = ln_f_row.astype(np.int32) @ lm_weight.astype(np.int32).T
+        hardware_scores = logits_acc.astype(np.int64) * model.lm_scale_ratio_q30.reshape(1, -1)
+        cached_token = int(np.argmax(hardware_scores, axis=1)[0])
+        full_token = int(full_result["argmax"][row_index])
+        token_match = cached_token == full_token
+        all_comparisons.append(
+            {
+                "layer": 6,
+                "stage": "argmax",
+                "row": row_index,
+                "mismatch": 0 if token_match else 1,
+                "elements": 1,
+                "mean_abs_error": 0.0 if token_match else 1.0,
+                "max_abs_error": 0 if token_match else 1,
+                "within_1_ratio": 1.0 if token_match else 0.0,
+            }
+        )
+        print(
+            f"step={step} mode=decode row={row_index} cached={cached_token} "
+            f"full={full_token} char={model.itos[cached_token]!r} match={token_match}"
+        )
+        if not token_match:
+            raise RuntimeError(f"cached argmax mismatch at step {step}")
+        generated.append(cached_token)
+
+    max_mismatch = max((int(item["mismatch"]) for item in all_comparisons), default=0)
+    embedding_invariant = len({entry["max_abs_q30"] for entry in embedding_maxima}) == 1
+    summary = {
+        "kind": "bittrue_ddr_kv_cache_validation",
+        "prompt": args.prompt,
+        "new_tokens": args.new_tokens,
+        "input_tokens": prompt_tokens,
+        "generated_tokens": generated,
+        "generated_text": "".join(model.itos[token] for token in generated),
+        "full_text": args.prompt + "".join(model.itos[token] for token in generated),
+        "prefill_rows": len(prompt_tokens),
+        "decode_rows": max(args.new_tokens - 1, 0),
+        "no_cache_row_work": sum(len(prompt_tokens) + step for step in range(args.new_tokens)),
+        "cached_row_work": len(prompt_tokens) + max(args.new_tokens - 1, 0),
+        "embedding_max_invariant": embedding_invariant,
+        "embedding_maxima": embedding_maxima,
+        "comparison_count": len(all_comparisons),
+        "max_stage_mismatch": max_mismatch,
+        "pass": max_mismatch == 0 and embedding_invariant,
+    }
+
+    args.out_dir.mkdir(parents=True, exist_ok=True)
+    if first_decode_rows is not None:
+        stage_dir = args.out_dir / "decode_step_1"
+        stage_dir.mkdir(parents=True, exist_ok=True)
+        for name, values in first_decode_rows.items():
+            dump_i8(stage_dir / name, values)
+        for layer in range(6):
+            dump_i8(stage_dir / f"layer_{layer:02d}_k_cache", k_caches[layer])
+            dump_i8(stage_dir / f"layer_{layer:02d}_v_cache", v_caches[layer])
+    (args.out_dir / "comparisons.json").write_text(
+        json.dumps(all_comparisons, indent=2), encoding="utf-8"
+    )
+    (args.out_dir / "summary.json").write_text(
+        json.dumps(summary, indent=2), encoding="utf-8"
+    )
+    print(json.dumps(summary, indent=2))
+    if not summary["pass"]:
+        raise SystemExit(1)
+
+
+if __name__ == "__main__":
+    main()

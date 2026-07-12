@@ -1,0 +1,49 @@
+
+0.633s TX 45:everything with a man<CR>
+0.716s RX 45:everything with a man<CR><LF>output: 
+4.753s RX  
+5.018s RX t
+5.285s RX h
+5.537s RX a
+5.789s RX t
+6.054s RX  
+6.309s RX w
+6.637s RX e
+6.890s RX  
+7.153s RX h
+7.411s RX a
+7.692s RX v
+7.941s RX e
+8.253s RX  
+8.504s RX s
+8.817s RX t
+9.072s RX o
+9.322s RX o
+9.636s RX d
+9.906s RX <LF>
+10.173s RX T
+10.461s RX h
+10.708s RX e
+11.022s RX  
+11.279s RX s
+11.547s RX e
+11.879s RX a
+12.135s RX l
+12.447s RX  
+12.695s RX o
+13.014s RX f
+13.281s RX  
+13.550s RX t
+13.898s RX h
+14.105s RX e
+14.422s RX  
+14.706s RX s
+14.987s RX e
+15.305s RX a
+15.617s RX  
+15.893s RX o
+16.155s RX f
+16.438s RX  
+16.755s RX t
+17.071s RX h<CR><LF>> 
+COM_UART_STREAM_PASS port=COM11 elapsed_s=17.202 raw=F:\nanogpt_ZYNQ\nanogpt_ZYNQ\fpga\nano_gpt\generated\run_logs\step3_ffn32_resetfix_45.raw.txt events=F:\nanogpt_ZYNQ\nanogpt_ZYNQ\fpga\nano_gpt\generated\run_logs\step3_ffn32_resetfix_45.raw.events.txt

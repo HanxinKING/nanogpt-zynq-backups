@@ -1,0 +1,1350 @@
+{
+  "kind": "rtl_lut_board_ddr_image",
+  "ddr_layout": {
+    "input": 268435456,
+    "output": 268566528,
+    "weights": 285212672,
+    "scales": 297795584,
+    "golden": 301989888,
+    "lut": 303038464,
+    "quality_params": 304087040,
+    "debug": 316669952,
+    "mailbox": 317718528
+  },
+  "input": {
+    "size": 98304,
+    "ddr_addr": 268435456
+  },
+  "output": {
+    "size": 98304,
+    "ddr_addr": 268566528
+  },
+  "golden": {
+    "size": 98304,
+    "ddr_addr": 301989888
+  },
+  "argmax": {
+    "size": 512,
+    "ddr_addr": 317718528
+  },
+  "weights": {
+    "size": 10641792,
+    "ddr_addr": 285212672,
+    "entries": {
+      "layer_00.wq": {
+        "file": "weights/layer_00_wq.mem",
+        "shape": [
+          384,
+          384
+        ],
+        "bytes": 147456,
+        "offset": 0,
+        "size": 147456,
+        "ddr_addr": 285212672
+      },
+      "layer_00.wk": {
+        "file": "weights/layer_00_wk.mem",
+        "shape": [
+          384,
+          384
+        ],
+        "bytes": 147456,
+        "offset": 147456,
+        "size": 147456,
+        "ddr_addr": 285360128
+      },
+      "layer_00.wv": {
+        "file": "weights/layer_00_wv.mem",
+        "shape": [
+          384,
+          384
+        ],
+        "bytes": 147456,
+        "offset": 294912,
+        "size": 147456,
+        "ddr_addr": 285507584
+      },
+      "layer_00.wo": {
+        "file": "weights/layer_00_wo.mem",
+        "shape": [
+          384,
+          384
+        ],
+        "bytes": 147456,
+        "offset": 442368,
+        "size": 147456,
+        "ddr_addr": 285655040
+      },
+      "layer_00.w1": {
+        "file": "weights/layer_00_w1.mem",
+        "shape": [
+          384,
+          1536
+        ],
+        "bytes": 589824,
+        "offset": 589824,
+        "size": 589824,
+        "ddr_addr": 285802496
+      },
+      "layer_00.w2": {
+        "file": "weights/layer_00_w2.mem",
+        "shape": [
+          1536,
+          384
+        ],
+        "bytes": 589824,
+        "offset": 1179648,
+        "size": 589824,
+        "ddr_addr": 286392320
+      },
+      "layer_01.wq": {
+        "file": "weights/layer_01_wq.mem",
+        "shape": [
+          384,
+          384
+        ],
+        "bytes": 147456,
+        "offset": 1769472,
+        "size": 147456,
+        "ddr_addr": 286982144
+      },
+      "layer_01.wk": {
+        "file": "weights/layer_01_wk.mem",
+        "shape": [
+          384,
+          384
+        ],
+        "bytes": 147456,
+        "offset": 1916928,
+        "size": 147456,
+        "ddr_addr": 287129600
+      },
+      "layer_01.wv": {
+        "file": "weights/layer_01_wv.mem",
+        "shape": [
+          384,
+          384
+        ],
+        "bytes": 147456,
+        "offset": 2064384,
+        "size": 147456,
+        "ddr_addr": 287277056
+      },
+      "layer_01.wo": {
+        "file": "weights/layer_01_wo.mem",
+        "shape": [
+          384,
+          384
+        ],
+        "bytes": 147456,
+        "offset": 2211840,
+        "size": 147456,
+        "ddr_addr": 287424512
+      },
+      "layer_01.w1": {
+        "file": "weights/layer_01_w1.mem",
+        "shape": [
+          384,
+          1536
+        ],
+        "bytes": 589824,
+        "offset": 2359296,
+        "size": 589824,
+        "ddr_addr": 287571968
+      },
+      "layer_01.w2": {
+        "file": "weights/layer_01_w2.mem",
+        "shape": [
+          1536,
+          384
+        ],
+        "bytes": 589824,
+        "offset": 2949120,
+        "size": 589824,
+        "ddr_addr": 288161792
+      },
+      "layer_02.wq": {
+        "file": "weights/layer_02_wq.mem",
+        "shape": [
+          384,
+          384
+        ],
+        "bytes": 147456,
+        "offset": 3538944,
+        "size": 147456,
+        "ddr_addr": 288751616
+      },
+      "layer_02.wk": {
+        "file": "weights/layer_02_wk.mem",
+        "shape": [
+          384,
+          384
+        ],
+        "bytes": 147456,
+        "offset": 3686400,
+        "size": 147456,
+        "ddr_addr": 288899072
+      },
+      "layer_02.wv": {
+        "file": "weights/layer_02_wv.mem",
+        "shape": [
+          384,
+          384
+        ],
+        "bytes": 147456,
+        "offset": 3833856,
+        "size": 147456,
+        "ddr_addr": 289046528
+      },
+      "layer_02.wo": {
+        "file": "weights/layer_02_wo.mem",
+        "shape": [
+          384,
+          384
+        ],
+        "bytes": 147456,
+        "offset": 3981312,
+        "size": 147456,
+        "ddr_addr": 289193984
+      },
+      "layer_02.w1": {
+        "file": "weights/layer_02_w1.mem",
+        "shape": [
+          384,
+          1536
+        ],
+        "bytes": 589824,
+        "offset": 4128768,
+        "size": 589824,
+        "ddr_addr": 289341440
+      },
+      "layer_02.w2": {
+        "file": "weights/layer_02_w2.mem",
+        "shape": [
+          1536,
+          384
+        ],
+        "bytes": 589824,
+        "offset": 4718592,
+        "size": 589824,
+        "ddr_addr": 289931264
+      },
+      "layer_03.wq": {
+        "file": "weights/layer_03_wq.mem",
+        "shape": [
+          384,
+          384
+        ],
+        "bytes": 147456,
+        "offset": 5308416,
+        "size": 147456,
+        "ddr_addr": 290521088
+      },
+      "layer_03.wk": {
+        "file": "weights/layer_03_wk.mem",
+        "shape": [
+          384,
+          384
+        ],
+        "bytes": 147456,
+        "offset": 5455872,
+        "size": 147456,
+        "ddr_addr": 290668544
+      },
+      "layer_03.wv": {
+        "file": "weights/layer_03_wv.mem",
+        "shape": [
+          384,
+          384
+        ],
+        "bytes": 147456,
+        "offset": 5603328,
+        "size": 147456,
+        "ddr_addr": 290816000
+      },
+      "layer_03.wo": {
+        "file": "weights/layer_03_wo.mem",
+        "shape": [
+          384,
+          384
+        ],
+        "bytes": 147456,
+        "offset": 5750784,
+        "size": 147456,
+        "ddr_addr": 290963456
+      },
+      "layer_03.w1": {
+        "file": "weights/layer_03_w1.mem",
+        "shape": [
+          384,
+          1536
+        ],
+        "bytes": 589824,
+        "offset": 5898240,
+        "size": 589824,
+        "ddr_addr": 291110912
+      },
+      "layer_03.w2": {
+        "file": "weights/layer_03_w2.mem",
+        "shape": [
+          1536,
+          384
+        ],
+        "bytes": 589824,
+        "offset": 6488064,
+        "size": 589824,
+        "ddr_addr": 291700736
+      },
+      "layer_04.wq": {
+        "file": "weights/layer_04_wq.mem",
+        "shape": [
+          384,
+          384
+        ],
+        "bytes": 147456,
+        "offset": 7077888,
+        "size": 147456,
+        "ddr_addr": 292290560
+      },
+      "layer_04.wk": {
+        "file": "weights/layer_04_wk.mem",
+        "shape": [
+          384,
+          384
+        ],
+        "bytes": 147456,
+        "offset": 7225344,
+        "size": 147456,
+        "ddr_addr": 292438016
+      },
+      "layer_04.wv": {
+        "file": "weights/layer_04_wv.mem",
+        "shape": [
+          384,
+          384
+        ],
+        "bytes": 147456,
+        "offset": 7372800,
+        "size": 147456,
+        "ddr_addr": 292585472
+      },
+      "layer_04.wo": {
+        "file": "weights/layer_04_wo.mem",
+        "shape": [
+          384,
+          384
+        ],
+        "bytes": 147456,
+        "offset": 7520256,
+        "size": 147456,
+        "ddr_addr": 292732928
+      },
+      "layer_04.w1": {
+        "file": "weights/layer_04_w1.mem",
+        "shape": [
+          384,
+          1536
+        ],
+        "bytes": 589824,
+        "offset": 7667712,
+        "size": 589824,
+        "ddr_addr": 292880384
+      },
+      "layer_04.w2": {
+        "file": "weights/layer_04_w2.mem",
+        "shape": [
+          1536,
+          384
+        ],
+        "bytes": 589824,
+        "offset": 8257536,
+        "size": 589824,
+        "ddr_addr": 293470208
+      },
+      "layer_05.wq": {
+        "file": "weights/layer_05_wq.mem",
+        "shape": [
+          384,
+          384
+        ],
+        "bytes": 147456,
+        "offset": 8847360,
+        "size": 147456,
+        "ddr_addr": 294060032
+      },
+      "layer_05.wk": {
+        "file": "weights/layer_05_wk.mem",
+        "shape": [
+          384,
+          384
+        ],
+        "bytes": 147456,
+        "offset": 8994816,
+        "size": 147456,
+        "ddr_addr": 294207488
+      },
+      "layer_05.wv": {
+        "file": "weights/layer_05_wv.mem",
+        "shape": [
+          384,
+          384
+        ],
+        "bytes": 147456,
+        "offset": 9142272,
+        "size": 147456,
+        "ddr_addr": 294354944
+      },
+      "layer_05.wo": {
+        "file": "weights/layer_05_wo.mem",
+        "shape": [
+          384,
+          384
+        ],
+        "bytes": 147456,
+        "offset": 9289728,
+        "size": 147456,
+        "ddr_addr": 294502400
+      },
+      "layer_05.w1": {
+        "file": "weights/layer_05_w1.mem",
+        "shape": [
+          384,
+          1536
+        ],
+        "bytes": 589824,
+        "offset": 9437184,
+        "size": 589824,
+        "ddr_addr": 294649856
+      },
+      "layer_05.w2": {
+        "file": "weights/layer_05_w2.mem",
+        "shape": [
+          1536,
+          384
+        ],
+        "bytes": 589824,
+        "offset": 10027008,
+        "size": 589824,
+        "ddr_addr": 295239680
+      },
+      "lm_head": {
+        "file": "lm_head.mem",
+        "shape": [
+          384,
+          65
+        ],
+        "offset": 10616832,
+        "size": 24960,
+        "ddr_addr": 295829504
+      }
+    }
+  },
+  "scales": {
+    "size": 144,
+    "ddr_addr": 297795584
+  },
+  "luts": {
+    "size": 9280,
+    "ddr_addr": 303038464,
+    "entries": {
+      "gelu_int8_to_i16": {
+        "offset": 0,
+        "size": 512,
+        "ddr_addr": 303038464
+      },
+      "softmax_exp2_q15": {
+        "offset": 512,
+        "size": 514,
+        "ddr_addr": 303038976
+      },
+      "softmax_recip_q15": {
+        "offset": 1088,
+        "size": 8192,
+        "ddr_addr": 303039552
+      }
+    }
+  },
+  "quality_params": {
+    "size": 104772,
+    "ddr_addr": 304087040,
+    "manifest": {
+      "kind": "quality_hw_params",
+      "format": "float32 little-endian parameters for quality-mode implementation",
+      "base_ddr_addr": 304087040,
+      "size": 104772,
+      "entries": {
+        "layer_00.ln_1.gamma": {
+          "file": "layer_00_ln_1_gamma.mem",
+          "offset": 0,
+          "bytes": 1536,
+          "shape": [
+            384
+          ],
+          "ddr_addr": 304087040
+        },
+        "layer_00.ln_2.gamma": {
+          "file": "layer_00_ln_2_gamma.mem",
+          "offset": 1536,
+          "bytes": 1536,
+          "shape": [
+            384
+          ],
+          "ddr_addr": 304088576
+        },
+        "layer_00.attn.c_attn.weight_scale": {
+          "file": "layer_00_attn_c_attn_weight_scale.mem",
+          "offset": 3072,
+          "bytes": 4608,
+          "shape": [
+            1152
+          ],
+          "ddr_addr": 304090112
+        },
+        "layer_00.attn.c_attn.activation_scale": {
+          "file": "layer_00_attn_c_attn_activation_scale.mem",
+          "offset": 7680,
+          "bytes": 4,
+          "shape": [
+            1
+          ],
+          "ddr_addr": 304094720
+        },
+        "layer_00.attn.c_proj.weight_scale": {
+          "file": "layer_00_attn_c_proj_weight_scale.mem",
+          "offset": 7744,
+          "bytes": 1536,
+          "shape": [
+            384
+          ],
+          "ddr_addr": 304094784
+        },
+        "layer_00.attn.c_proj.activation_scale": {
+          "file": "layer_00_attn_c_proj_activation_scale.mem",
+          "offset": 9280,
+          "bytes": 4,
+          "shape": [
+            1
+          ],
+          "ddr_addr": 304096320
+        },
+        "layer_00.mlp.c_fc.weight_scale": {
+          "file": "layer_00_mlp_c_fc_weight_scale.mem",
+          "offset": 9344,
+          "bytes": 6144,
+          "shape": [
+            1536
+          ],
+          "ddr_addr": 304096384
+        },
+        "layer_00.mlp.c_fc.activation_scale": {
+          "file": "layer_00_mlp_c_fc_activation_scale.mem",
+          "offset": 15488,
+          "bytes": 4,
+          "shape": [
+            1
+          ],
+          "ddr_addr": 304102528
+        },
+        "layer_00.mlp.c_proj.weight_scale": {
+          "file": "layer_00_mlp_c_proj_weight_scale.mem",
+          "offset": 15552,
+          "bytes": 1536,
+          "shape": [
+            384
+          ],
+          "ddr_addr": 304102592
+        },
+        "layer_00.mlp.c_proj.activation_scale": {
+          "file": "layer_00_mlp_c_proj_activation_scale.mem",
+          "offset": 17088,
+          "bytes": 4,
+          "shape": [
+            1
+          ],
+          "ddr_addr": 304104128
+        },
+        "layer_01.ln_1.gamma": {
+          "file": "layer_01_ln_1_gamma.mem",
+          "offset": 17152,
+          "bytes": 1536,
+          "shape": [
+            384
+          ],
+          "ddr_addr": 304104192
+        },
+        "layer_01.ln_2.gamma": {
+          "file": "layer_01_ln_2_gamma.mem",
+          "offset": 18688,
+          "bytes": 1536,
+          "shape": [
+            384
+          ],
+          "ddr_addr": 304105728
+        },
+        "layer_01.attn.c_attn.weight_scale": {
+          "file": "layer_01_attn_c_attn_weight_scale.mem",
+          "offset": 20224,
+          "bytes": 4608,
+          "shape": [
+            1152
+          ],
+          "ddr_addr": 304107264
+        },
+        "layer_01.attn.c_attn.activation_scale": {
+          "file": "layer_01_attn_c_attn_activation_scale.mem",
+          "offset": 24832,
+          "bytes": 4,
+          "shape": [
+            1
+          ],
+          "ddr_addr": 304111872
+        },
+        "layer_01.attn.c_proj.weight_scale": {
+          "file": "layer_01_attn_c_proj_weight_scale.mem",
+          "offset": 24896,
+          "bytes": 1536,
+          "shape": [
+            384
+          ],
+          "ddr_addr": 304111936
+        },
+        "layer_01.attn.c_proj.activation_scale": {
+          "file": "layer_01_attn_c_proj_activation_scale.mem",
+          "offset": 26432,
+          "bytes": 4,
+          "shape": [
+            1
+          ],
+          "ddr_addr": 304113472
+        },
+        "layer_01.mlp.c_fc.weight_scale": {
+          "file": "layer_01_mlp_c_fc_weight_scale.mem",
+          "offset": 26496,
+          "bytes": 6144,
+          "shape": [
+            1536
+          ],
+          "ddr_addr": 304113536
+        },
+        "layer_01.mlp.c_fc.activation_scale": {
+          "file": "layer_01_mlp_c_fc_activation_scale.mem",
+          "offset": 32640,
+          "bytes": 4,
+          "shape": [
+            1
+          ],
+          "ddr_addr": 304119680
+        },
+        "layer_01.mlp.c_proj.weight_scale": {
+          "file": "layer_01_mlp_c_proj_weight_scale.mem",
+          "offset": 32704,
+          "bytes": 1536,
+          "shape": [
+            384
+          ],
+          "ddr_addr": 304119744
+        },
+        "layer_01.mlp.c_proj.activation_scale": {
+          "file": "layer_01_mlp_c_proj_activation_scale.mem",
+          "offset": 34240,
+          "bytes": 4,
+          "shape": [
+            1
+          ],
+          "ddr_addr": 304121280
+        },
+        "layer_02.ln_1.gamma": {
+          "file": "layer_02_ln_1_gamma.mem",
+          "offset": 34304,
+          "bytes": 1536,
+          "shape": [
+            384
+          ],
+          "ddr_addr": 304121344
+        },
+        "layer_02.ln_2.gamma": {
+          "file": "layer_02_ln_2_gamma.mem",
+          "offset": 35840,
+          "bytes": 1536,
+          "shape": [
+            384
+          ],
+          "ddr_addr": 304122880
+        },
+        "layer_02.attn.c_attn.weight_scale": {
+          "file": "layer_02_attn_c_attn_weight_scale.mem",
+          "offset": 37376,
+          "bytes": 4608,
+          "shape": [
+            1152
+          ],
+          "ddr_addr": 304124416
+        },
+        "layer_02.attn.c_attn.activation_scale": {
+          "file": "layer_02_attn_c_attn_activation_scale.mem",
+          "offset": 41984,
+          "bytes": 4,
+          "shape": [
+            1
+          ],
+          "ddr_addr": 304129024
+        },
+        "layer_02.attn.c_proj.weight_scale": {
+          "file": "layer_02_attn_c_proj_weight_scale.mem",
+          "offset": 42048,
+          "bytes": 1536,
+          "shape": [
+            384
+          ],
+          "ddr_addr": 304129088
+        },
+        "layer_02.attn.c_proj.activation_scale": {
+          "file": "layer_02_attn_c_proj_activation_scale.mem",
+          "offset": 43584,
+          "bytes": 4,
+          "shape": [
+            1
+          ],
+          "ddr_addr": 304130624
+        },
+        "layer_02.mlp.c_fc.weight_scale": {
+          "file": "layer_02_mlp_c_fc_weight_scale.mem",
+          "offset": 43648,
+          "bytes": 6144,
+          "shape": [
+            1536
+          ],
+          "ddr_addr": 304130688
+        },
+        "layer_02.mlp.c_fc.activation_scale": {
+          "file": "layer_02_mlp_c_fc_activation_scale.mem",
+          "offset": 49792,
+          "bytes": 4,
+          "shape": [
+            1
+          ],
+          "ddr_addr": 304136832
+        },
+        "layer_02.mlp.c_proj.weight_scale": {
+          "file": "layer_02_mlp_c_proj_weight_scale.mem",
+          "offset": 49856,
+          "bytes": 1536,
+          "shape": [
+            384
+          ],
+          "ddr_addr": 304136896
+        },
+        "layer_02.mlp.c_proj.activation_scale": {
+          "file": "layer_02_mlp_c_proj_activation_scale.mem",
+          "offset": 51392,
+          "bytes": 4,
+          "shape": [
+            1
+          ],
+          "ddr_addr": 304138432
+        },
+        "layer_03.ln_1.gamma": {
+          "file": "layer_03_ln_1_gamma.mem",
+          "offset": 51456,
+          "bytes": 1536,
+          "shape": [
+            384
+          ],
+          "ddr_addr": 304138496
+        },
+        "layer_03.ln_2.gamma": {
+          "file": "layer_03_ln_2_gamma.mem",
+          "offset": 52992,
+          "bytes": 1536,
+          "shape": [
+            384
+          ],
+          "ddr_addr": 304140032
+        },
+        "layer_03.attn.c_attn.weight_scale": {
+          "file": "layer_03_attn_c_attn_weight_scale.mem",
+          "offset": 54528,
+          "bytes": 4608,
+          "shape": [
+            1152
+          ],
+          "ddr_addr": 304141568
+        },
+        "layer_03.attn.c_attn.activation_scale": {
+          "file": "layer_03_attn_c_attn_activation_scale.mem",
+          "offset": 59136,
+          "bytes": 4,
+          "shape": [
+            1
+          ],
+          "ddr_addr": 304146176
+        },
+        "layer_03.attn.c_proj.weight_scale": {
+          "file": "layer_03_attn_c_proj_weight_scale.mem",
+          "offset": 59200,
+          "bytes": 1536,
+          "shape": [
+            384
+          ],
+          "ddr_addr": 304146240
+        },
+        "layer_03.attn.c_proj.activation_scale": {
+          "file": "layer_03_attn_c_proj_activation_scale.mem",
+          "offset": 60736,
+          "bytes": 4,
+          "shape": [
+            1
+          ],
+          "ddr_addr": 304147776
+        },
+        "layer_03.mlp.c_fc.weight_scale": {
+          "file": "layer_03_mlp_c_fc_weight_scale.mem",
+          "offset": 60800,
+          "bytes": 6144,
+          "shape": [
+            1536
+          ],
+          "ddr_addr": 304147840
+        },
+        "layer_03.mlp.c_fc.activation_scale": {
+          "file": "layer_03_mlp_c_fc_activation_scale.mem",
+          "offset": 66944,
+          "bytes": 4,
+          "shape": [
+            1
+          ],
+          "ddr_addr": 304153984
+        },
+        "layer_03.mlp.c_proj.weight_scale": {
+          "file": "layer_03_mlp_c_proj_weight_scale.mem",
+          "offset": 67008,
+          "bytes": 1536,
+          "shape": [
+            384
+          ],
+          "ddr_addr": 304154048
+        },
+        "layer_03.mlp.c_proj.activation_scale": {
+          "file": "layer_03_mlp_c_proj_activation_scale.mem",
+          "offset": 68544,
+          "bytes": 4,
+          "shape": [
+            1
+          ],
+          "ddr_addr": 304155584
+        },
+        "layer_04.ln_1.gamma": {
+          "file": "layer_04_ln_1_gamma.mem",
+          "offset": 68608,
+          "bytes": 1536,
+          "shape": [
+            384
+          ],
+          "ddr_addr": 304155648
+        },
+        "layer_04.ln_2.gamma": {
+          "file": "layer_04_ln_2_gamma.mem",
+          "offset": 70144,
+          "bytes": 1536,
+          "shape": [
+            384
+          ],
+          "ddr_addr": 304157184
+        },
+        "layer_04.attn.c_attn.weight_scale": {
+          "file": "layer_04_attn_c_attn_weight_scale.mem",
+          "offset": 71680,
+          "bytes": 4608,
+          "shape": [
+            1152
+          ],
+          "ddr_addr": 304158720
+        },
+        "layer_04.attn.c_attn.activation_scale": {
+          "file": "layer_04_attn_c_attn_activation_scale.mem",
+          "offset": 76288,
+          "bytes": 4,
+          "shape": [
+            1
+          ],
+          "ddr_addr": 304163328
+        },
+        "layer_04.attn.c_proj.weight_scale": {
+          "file": "layer_04_attn_c_proj_weight_scale.mem",
+          "offset": 76352,
+          "bytes": 1536,
+          "shape": [
+            384
+          ],
+          "ddr_addr": 304163392
+        },
+        "layer_04.attn.c_proj.activation_scale": {
+          "file": "layer_04_attn_c_proj_activation_scale.mem",
+          "offset": 77888,
+          "bytes": 4,
+          "shape": [
+            1
+          ],
+          "ddr_addr": 304164928
+        },
+        "layer_04.mlp.c_fc.weight_scale": {
+          "file": "layer_04_mlp_c_fc_weight_scale.mem",
+          "offset": 77952,
+          "bytes": 6144,
+          "shape": [
+            1536
+          ],
+          "ddr_addr": 304164992
+        },
+        "layer_04.mlp.c_fc.activation_scale": {
+          "file": "layer_04_mlp_c_fc_activation_scale.mem",
+          "offset": 84096,
+          "bytes": 4,
+          "shape": [
+            1
+          ],
+          "ddr_addr": 304171136
+        },
+        "layer_04.mlp.c_proj.weight_scale": {
+          "file": "layer_04_mlp_c_proj_weight_scale.mem",
+          "offset": 84160,
+          "bytes": 1536,
+          "shape": [
+            384
+          ],
+          "ddr_addr": 304171200
+        },
+        "layer_04.mlp.c_proj.activation_scale": {
+          "file": "layer_04_mlp_c_proj_activation_scale.mem",
+          "offset": 85696,
+          "bytes": 4,
+          "shape": [
+            1
+          ],
+          "ddr_addr": 304172736
+        },
+        "layer_05.ln_1.gamma": {
+          "file": "layer_05_ln_1_gamma.mem",
+          "offset": 85760,
+          "bytes": 1536,
+          "shape": [
+            384
+          ],
+          "ddr_addr": 304172800
+        },
+        "layer_05.ln_2.gamma": {
+          "file": "layer_05_ln_2_gamma.mem",
+          "offset": 87296,
+          "bytes": 1536,
+          "shape": [
+            384
+          ],
+          "ddr_addr": 304174336
+        },
+        "layer_05.attn.c_attn.weight_scale": {
+          "file": "layer_05_attn_c_attn_weight_scale.mem",
+          "offset": 88832,
+          "bytes": 4608,
+          "shape": [
+            1152
+          ],
+          "ddr_addr": 304175872
+        },
+        "layer_05.attn.c_attn.activation_scale": {
+          "file": "layer_05_attn_c_attn_activation_scale.mem",
+          "offset": 93440,
+          "bytes": 4,
+          "shape": [
+            1
+          ],
+          "ddr_addr": 304180480
+        },
+        "layer_05.attn.c_proj.weight_scale": {
+          "file": "layer_05_attn_c_proj_weight_scale.mem",
+          "offset": 93504,
+          "bytes": 1536,
+          "shape": [
+            384
+          ],
+          "ddr_addr": 304180544
+        },
+        "layer_05.attn.c_proj.activation_scale": {
+          "file": "layer_05_attn_c_proj_activation_scale.mem",
+          "offset": 95040,
+          "bytes": 4,
+          "shape": [
+            1
+          ],
+          "ddr_addr": 304182080
+        },
+        "layer_05.mlp.c_fc.weight_scale": {
+          "file": "layer_05_mlp_c_fc_weight_scale.mem",
+          "offset": 95104,
+          "bytes": 6144,
+          "shape": [
+            1536
+          ],
+          "ddr_addr": 304182144
+        },
+        "layer_05.mlp.c_fc.activation_scale": {
+          "file": "layer_05_mlp_c_fc_activation_scale.mem",
+          "offset": 101248,
+          "bytes": 4,
+          "shape": [
+            1
+          ],
+          "ddr_addr": 304188288
+        },
+        "layer_05.mlp.c_proj.weight_scale": {
+          "file": "layer_05_mlp_c_proj_weight_scale.mem",
+          "offset": 101312,
+          "bytes": 1536,
+          "shape": [
+            384
+          ],
+          "ddr_addr": 304188352
+        },
+        "layer_05.mlp.c_proj.activation_scale": {
+          "file": "layer_05_mlp_c_proj_activation_scale.mem",
+          "offset": 102848,
+          "bytes": 4,
+          "shape": [
+            1
+          ],
+          "ddr_addr": 304189888
+        },
+        "ln_f.gamma": {
+          "file": "ln_f_gamma.mem",
+          "offset": 102912,
+          "bytes": 1536,
+          "shape": [
+            384
+          ],
+          "ddr_addr": 304189952
+        },
+        "lm_head.weight_scale": {
+          "file": "lm_head_weight_scale.mem",
+          "offset": 104448,
+          "bytes": 260,
+          "shape": [
+            65
+          ],
+          "ddr_addr": 304191488
+        },
+        "lm_head.activation_scale": {
+          "file": "lm_head_activation_scale.mem",
+          "offset": 104768,
+          "bytes": 4,
+          "shape": [
+            1
+          ],
+          "ddr_addr": 304191808
+        }
+      }
+    }
+  },
+  "quality_metadata": {
+    "kind": "quality_full_golden",
+    "checkpoint": "F:\\nanogpt_ZYNQ\\nanoGPT\\out-shakespeare-char\\ckpt.pt",
+    "dataset": "shakespeare_char",
+    "token_offset": 0,
+    "seq_len": 256,
+    "d_model": 384,
+    "n_layer": 6,
+    "vocab_size": 65,
+    "logit_scale": 1024.0,
+    "loss": 0.9346647611550547,
+    "perplexity": 2.546359675960011,
+    "stage_quant": {
+      "layer_00.ln1": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.025316461803406243
+      },
+      "layer_00.attn": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.009113750119847575
+      },
+      "layer_00.ln2": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.04119781058604323
+      },
+      "layer_00.ffn": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.18155599579097717
+      },
+      "layer_00.final": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.18236223355991635
+      },
+      "layer_01.ln1": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.056345166183832125
+      },
+      "layer_01.attn": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.008818968074528252
+      },
+      "layer_01.ln2": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.06447234116201325
+      },
+      "layer_01.ffn": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.036582413620836154
+      },
+      "layer_01.final": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.2223553845262903
+      },
+      "layer_02.ln1": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.05836757149283341
+      },
+      "layer_02.attn": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.019946447507602962
+      },
+      "layer_02.ln2": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.06496653969832293
+      },
+      "layer_02.ffn": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.03310679263017309
+      },
+      "layer_02.final": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.24660163038358915
+      },
+      "layer_03.ln1": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.05668491829098679
+      },
+      "layer_03.attn": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.022818313808891717
+      },
+      "layer_03.ln2": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.06564084751399483
+      },
+      "layer_03.ffn": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.034276027379073495
+      },
+      "layer_03.final": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.252539867491234
+      },
+      "layer_04.ln1": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.05635285565233606
+      },
+      "layer_04.attn": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.01952650791078102
+      },
+      "layer_04.ln2": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.070015193909172
+      },
+      "layer_04.ffn": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.1798048394871509
+      },
+      "layer_04.final": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.309608789879506
+      },
+      "layer_05.ln1": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.057555213687926765
+      },
+      "layer_05.attn": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.024852598745991866
+      },
+      "layer_05.ln2": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.0740545227771669
+      },
+      "layer_05.ffn": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.213080638975609
+      },
+      "layer_05.final": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.49526298703171134
+      },
+      "ln_f": {
+        "shape": [
+          256,
+          384
+        ],
+        "scale": 0.06379499961072066
+      }
+    },
+    "argmax_first32": [
+      0,
+      0,
+      28,
+      24,
+      17,
+      25,
+      21,
+      27,
+      10,
+      0,
+      32,
+      53,
+      53,
+      42,
+      1,
+      51,
+      39,
+      56,
+      56,
+      53,
+      61,
+      6,
+      1,
+      57,
+      53,
+      47,
+      58,
+      46,
+      40,
+      53,
+      59,
+      56
+    ],
+    "target_first32": [
+      0,
+      0,
+      19,
+      30,
+      17,
+      25,
+      21,
+      27,
+      10,
+      0,
+      19,
+      53,
+      53,
+      42,
+      1,
+      51,
+      53,
+      56,
+      56,
+      53,
+      61,
+      6,
+      1,
+      52,
+      43,
+      47,
+      45,
+      46,
+      40,
+      53,
+      59,
+      56
+    ]
+  },
+  "source_base_manifest": "F:\\nanogpt_ZYNQ\\fpga\\nano_gpt\\generated\\int8_full_s256_d384_l6\\ddr_image\\manifest.json",
+  "source_base_image": "F:\\nanogpt_ZYNQ\\fpga\\nano_gpt\\generated\\int8_hw_ppl_pass_s256_d384_l6\\ddr_image",
+  "source_input": "F:\\nanogpt_ZYNQ\\fpga\\nano_gpt\\generated\\int8_quality_hw_exact_s256_d384_l6\\layers\\layer_00\\input.bin",
+  "source_golden_final": "F:\\nanogpt_ZYNQ\\fpga\\nano_gpt\\generated\\int8_quality_hw_exact_s256_d384_l6\\layers\\layer_00\\final_rtl_lut.bin"
+}
