@@ -1,0 +1,22 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "01 调试 INT8 量化",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/01_VSCode_Python/01_quantize_int8.py",
+      "args": ["--force"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "02 调试 Token 交互",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/01_VSCode_Python/02_token_console.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}

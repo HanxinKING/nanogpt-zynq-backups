@@ -1,0 +1,27 @@
+#-----------------------------------------------------------
+# Vivado v2025.2 (64-bit)
+# SW Build 6299465 on Fri Nov 14 19:35:11 GMT 2025
+# IP Build 6300035 on Fri Nov 14 10:48:45 MST 2025
+# SharedData Build 6298862 on Thu Nov 13 04:50:51 MST 2025
+# Start of session at: Tue Jul 14 22:00:09 2026
+# Process ID         : 11064
+# Current directory  : <repository-root>
+# Command line       : vivado.exe -mode batch -source <repository-root>\validation\help_connect_hw_server.tcl -nojournal -log <repository-root>\validation\help_connect_hw_server2.log
+# Log file           : <repository-root>/validation/help_connect_hw_server2.log
+# Journal file       : 
+# Running On         : <build-host>
+# Platform           : Windows Server 2016 or Windows 10
+# Operating System   : 26200
+# Processor Detail   : Intel(R) Core(TM) i9-14900HX
+# CPU Frequency      : 2419 MHz
+# CPU Physical cores : 24
+# CPU Logical cores  : 32
+# Host memory        : 16961 MB
+# Swap memory        : 25769 MB
+# Total Virtual      : 42731 MB
+# Available Virtual  : 23106 MB
+#-----------------------------------------------------------
+source {<repository-root>\validation\help_connect_hw_server.tcl}
+# help connect_hw_server
+# exit
+INFO: [Common 17-206] Exiting Vivado at Tue Jul 14 22:00:19 2026...

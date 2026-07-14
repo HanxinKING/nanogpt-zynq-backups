@@ -1,49 +1,68 @@
-# nanoGPT-ZYNQ final release
+# nanoGPT Zynq QKT8 100 MHz 最终工程
 
-This release contains only the final verified deployment: single-clock 75 MHz, FFN cross-group prefetch, and FFN 32-way parallel execution.
+这是当前正式签核的 PS+PL 协同版本，同时包含可复现工程、板级产物、Python 定点参考和配套串口上位机。
 
-The release was tested over the on-board FTDI UART at 115200 8N1. Prompt `everything with a man` generated 200 characters in 71.075 seconds. All six-layer final-row hidden values matched the reference (96/96 words), and post-route timing passed with WNS +0.332 ns and TNS 0.
+## 最终指标
 
-## Contents
+- PL：100 MHz，QKT8、Q/K/V/Projection16、FFN64、DDR 增量 K/V Cache。
+- 时序：WNS `+0.181 ns`、TNS `0`、WHS `+0.036 ns`。
+- 板级六层 hidden：`mismatch=0/4224`。
+- 板端/Python Q30：200 token `mismatch=0/200`。
+- 性能：`129.453 ms/token`，约 `7.72 char/s`。
+- 质量：FP32 PPL `4.333494`，硬件对齐 INT8 PPL `4.509458`，回退 `4.0606%`。
 
-- `artifacts/`: final bitstream/HWH, final PS program/source, final RTL and measured reports/logs.
-- `fpga/ddr_image/`: runtime INT8 DDR image, including model weights, scales, LUTs, input and golden vectors.
-- `fpga/overlay/system/`: deployable PL bitstream, hardware handoff and debug probes.
-- `fpga/rtl/`: final FFN32 hardware RTL source.
-- `fpga/scripts/`: Vivado project-generation script for the final DDR design.
-- `ps/`: final bare-metal PS source, ELF and UART/JTAG helper scripts.
-- `python/`: nanoGPT model source and INT8 export/evaluation tools.
-- `tests/`: final UART deployment and 200-character generation records.
-- `vivado_project/`: portable Vivado 2025.2 rebuild source, including the final RTL, 75 MHz constraints, Block Design/IP configuration, fixed-point memory files, and a project-creation Tcl script.
+## 从这里开始
 
-## Deliberately excluded
+1. 双击 `nanoGPT_Zynq_演示工程.code-workspace`。
+2. VSCode 中点击 **终端 -> 运行任务**。
+3. 依次运行：
+   - `01 生成 INT8 量化包`
+   - `02 交互输入 Prompt 并查看 Token`
+   - `03 核对签核结果`
+   - `04 打开 Vivado PL 工程`
+   - `05 创建或刷新 Vitis PS Workspace`
+   - `06 打开 Vitis PS Workspace`
 
-Old experimental variants, `.bak` files, Vivado cache/run directories, historical debug dumps, and the 123 MB FP32 training checkpoint are intentionally excluded. The deployable INT8 weights required by the board are included as `fpga/ddr_image/weights.bin`. The reproducible Vivado source is retained in `vivado_project/`; Vivado regenerates its `.gen`, `.cache`, `.runs`, and `.Xil` directories locally.
+详细入口：
 
-## Deployment
+- `01_VSCode_Python/README.md`：真实 checkpoint 的 W8A8 INT8 量化、输入 token、输出 token。
+- `02_Vivado_PL/README.md`：正常 `.xpr` 工程、Block Design、综合、实现和 bitstream。
+- `03_Vitis_PS/README.md`：导出 XSA、生成 Vitis platform、查看 PS 源码和 PS/PL 联调。
+- `04_Demo_Results/README.md`：建议录屏顺序与答辩展示口径。
+- `host_tools/nanogpt_uart_gui/`：科创课堂串口上位机源码、测试与 Windows EXE。
+- `artifacts/`：最终 bitstream、HWH、routed DCP、时序与资源报告。
+- `validation/`：200-token 板级输出和三轮性能 profile。
+- `NanoGPT_PS+PL_重要参数汇总.md`：模型、DDR、寄存器、性能与资源完整参数。
 
-1. Program `fpga/overlay/system/system.bit` and use its matching `system.hwh`.
-2. Load the DDR image files at the addresses defined by `ps/run_ps_mailbox_runner.tcl`.
-3. Run `ps/ps_mailbox_runner.elf`.
-4. Connect the board UART at 115200 baud, 8 data bits, no parity, 1 stop bit; then send a prompt such as `200:everything with a man` followed by CR/LF.
+## 仓库结构
 
-## Vivado Rebuild
-
-In Vivado Tcl, change to `vivado_project/` and run:
-
-```tcl
-source scripts/create_final_75mhz_project.tcl
+```text
+01_VSCode_Python/   Python 量化、FP32/INT8 token 演示
+artifacts/          最终 system.bit、system.hwh、DCP、签核报告
+fpga/               RTL、约束、IP、DDR 镜像和部署文件
+hls/                HLS C/C++ 源码与生成资料
+host_tools/         科创课堂 nanoGPT 串口平台
+ps/                 Cortex-A9 裸机源码、脚本和 ELF
+python/             nanoGPT 原始程序、定点工具和量化结果
+reference/          Q30 参数、golden、embedding 和 DDR 镜像
+validation/         板级 200-token 与性能测试记录
+vitis/              Vitis Classic 2025.2 工程及平台资料
+vivado_project/     可直接打开的 Vivado 2025.2 工程源码
 ```
 
-The script creates a local `nano_gpt.xpr`, regenerates the Block Design, and validates the DDR/AXI connection graph at 75 MHz. It was executed successfully before publishing this release.
+仓库包含板端部署所需的 INT8 权重、scale、golden、bitstream 和 routed DCP。123 MiB 的 FP32 训练 checkpoint 不参与板端运行，因此未纳入仓库；可按 `python/nanoGPT/README.md` 重新训练生成。
 
-## Performance Profiling
+## 正式工程与签核状态
 
-`ps/main.c` includes a final-FFN32 stage profiler. Build and run it through
-JTAG, then use `ps/read_decode_profile.tcl` to read the stage counts. See
-`ps/PROFILE_USAGE.md` for the mailbox map and conversion to milliseconds.
+- Vivado：`fpga/nano_gpt/nano_gpt.xpr`
+- 顶层：`system_wrapper`
+- PL：100 MHz，QKT8、Q/K/V/Projection16、FFN64、DDR incremental K/V cache
+- 时序：WNS `+0.181 ns`、TNS `0`、WHS `+0.036 ns`
+- 板级六层 hidden：`mismatch=0/4224`
+- 板端/Python Q30：200 token `mismatch=0/200`
+- 性能：约 `129.453 ms/token`，约 `7.72 char/s`
+- Vitis Classic 2025.2：GUI 手动 Clean/Build All 已通过，PS ELF 错误数 `0`
 
-Latest board measurement: with `everything with a man`, K/V-cache steady state
-at 28 context characters takes 240.121 ms per token (4.165 char/s). FFN takes
-141.985 ms, or 59.13% of this measured step. The full report is
-`metrics/ffn32_75mhz_stage_profile_20260712.md`.
+Vitis 手动点击步骤与构建证据见 `03_Vitis_PS/VITIS_GUI_VALIDATION.md`。
+
+原签核 RTL、checkpoint、DDR 镜像、bit/hwh、routed DCP 和报告没有被替换。新增演示输出只写入 `01_VSCode_Python/demo_outputs/`、`03_Vitis_PS/hardware/` 和 `03_Vitis_PS/workspace/`。

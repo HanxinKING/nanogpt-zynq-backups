@@ -1,0 +1,26 @@
+{
+  "folders": [
+    {"name": "00_开始与说明", "path": "."},
+    {"name": "01_VSCode_INT8与Token", "path": "01_VSCode_Python"},
+    {"name": "Python_nanoGPT源码", "path": "python/nanoGPT"},
+    {"name": "Vivado_PL工程", "path": "fpga/nano_gpt"},
+    {"name": "Vitis_PS工程", "path": "03_Vitis_PS"},
+    {"name": "HLS_IP源码", "path": "hls"},
+    {"name": "签核结果", "path": "artifacts"}
+  ],
+  "settings": {
+    "python.defaultInterpreterPath": "C:\\Users\\Lenovo\\.conda\\envs\\myenv\\python.exe",
+    "python.terminal.activateEnvironment": false,
+    "code-runner.runInTerminal": false,
+    "code-runner.preserveFocus": false,
+    "code-runner.executorMap": {
+      "python": "F:\\nanogpt_ZYNQ\\deliverables\\nanogpt_zynq_qkt8_100mhz_final\\01_VSCode_Python\\run_python_myenv.cmd"
+    },
+    "terminal.integrated.cwd": "${workspaceFolder:00_开始与说明}",
+    "files.exclude": {
+      "**/__pycache__": true,
+      "**/.pytest_cache": true,
+      "**/.Xil": true
+    }
+  }
+}

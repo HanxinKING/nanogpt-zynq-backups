@@ -1,0 +1,72 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "01 生成 INT8 量化包",
+      "type": "process",
+      "command": "C:\\Users\\Lenovo\\.conda\\envs\\myenv\\python.exe",
+      "args": ["${workspaceFolder}/01_VSCode_Python/01_quantize_int8.py", "--force"],
+      "options": {"cwd": "${workspaceFolder}", "env": {"PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8"}},
+      "problemMatcher": [],
+      "presentation": {"reveal": "always", "panel": "dedicated", "clear": true}
+    },
+    {
+      "label": "02 交互输入 Prompt 并查看 Token",
+      "type": "process",
+      "command": "C:\\Users\\Lenovo\\.conda\\envs\\myenv\\python.exe",
+      "args": ["${workspaceFolder}/01_VSCode_Python/02_token_console.py"],
+      "options": {"cwd": "${workspaceFolder}", "env": {"PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8"}},
+      "dependsOn": "01 生成 INT8 量化包",
+      "dependsOrder": "sequence",
+      "problemMatcher": [],
+      "presentation": {"reveal": "always", "panel": "dedicated", "clear": false, "focus": true}
+    },
+    {
+      "label": "03 核对签核结果",
+      "type": "process",
+      "command": "C:\\Users\\Lenovo\\.conda\\envs\\myenv\\python.exe",
+      "args": ["${workspaceFolder}/01_VSCode_Python/03_verify_signoff.py"],
+      "options": {"cwd": "${workspaceFolder}", "env": {"PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8"}},
+      "problemMatcher": [],
+      "presentation": {"reveal": "always", "panel": "dedicated", "clear": true}
+    },
+    {
+      "label": "04 打开 Vivado PL 工程",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": ["-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/02_Vivado_PL/open_vivado_project.ps1"],
+      "problemMatcher": []
+    },
+    {
+      "label": "05 创建或刷新 Vitis PS Workspace",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": ["-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/03_Vitis_PS/create_or_refresh_workspace.ps1"],
+      "problemMatcher": [],
+      "presentation": {"reveal": "always", "panel": "dedicated", "clear": true}
+    },
+    {
+      "label": "06 打开 Vitis PS Workspace",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": ["-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/03_Vitis_PS/open_vitis.ps1"],
+      "problemMatcher": []
+    },
+    {
+      "label": "07 编译独立 PS ELF",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": ["-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/fpga/nano_gpt/baremetal/ps_mailbox_runner/scripts/build.ps1"],
+      "problemMatcher": [],
+      "group": {"kind": "build", "isDefault": true},
+      "presentation": {"reveal": "always", "panel": "dedicated", "clear": true}
+    },
+    {
+      "label": "08 打开简化 RTL 文件工程",
+      "type": "process",
+      "command": "F:\\Vivado2025.2\\2025.2\\Vivado\\bin\\vivado.bat",
+      "args": ["${workspaceFolder}/fpga/nano_gpt_rtl_files/nano_gpt_rtl_files.xpr"],
+      "problemMatcher": []
+    }
+  ]
+}

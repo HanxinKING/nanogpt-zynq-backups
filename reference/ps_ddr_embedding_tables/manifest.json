@@ -1,0 +1,24 @@
+{
+    "kind":  "ps_ddr_embedding_tables",
+    "source_dir":  "F:\\nanogpt_ZYNQ\\nanogpt_ZYNQ\\fpga\\nano_gpt\\generated\\hello_world_int8_reference_20260708_134656\\weights_mem",
+    "token_embedding":  {
+                            "ddr_base":  "0x13000000",
+                            "shape":  [
+                                          65,
+                                          384
+                                      ],
+                            "bytes":  24960,
+                            "bin":  "F:\\nanogpt_ZYNQ\\nanogpt_ZYNQ\\fpga\\nano_gpt\\generated\\ps_ddr_embedding_tables\\token_embedding_i8.bin"
+                        },
+    "position_embedding":  {
+                               "ddr_base":  "0x13010000",
+                               "shape":  [
+                                             256,
+                                             384
+                                         ],
+                               "bytes":  98304,
+                               "bin":  "F:\\nanogpt_ZYNQ\\nanogpt_ZYNQ\\fpga\\nano_gpt\\generated\\ps_ddr_embedding_tables\\position_embedding_i8.bin"
+                           },
+    "hidden_generation":  "hidden[pos][dim] = clamp_i8(token_embedding[token][dim] + position_embedding[pos][dim])",
+    "hidden_output_ddr":  "0x10000000"
+}

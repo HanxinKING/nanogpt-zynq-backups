@@ -1,0 +1,42 @@
+{
+  "checkpoint": "F:\\nanogpt_ZYNQ\\nanoGPT\\out-shakespeare-char\\ckpt.pt",
+  "dataset": "shakespeare_char",
+  "primary_mode": "w8a8_fake_quant",
+  "device": "cuda",
+  "batch_size": 64,
+  "eval_iters": 200,
+  "calib_iters": 200,
+  "seed": 1337,
+  "model_args": {
+    "n_layer": 6,
+    "n_head": 6,
+    "n_embd": 384,
+    "block_size": 256,
+    "bias": false,
+    "vocab_size": 65,
+    "dropout": 0.2
+  },
+  "fp32": {
+    "val_loss": 1.4663740962743759,
+    "perplexity": 4.333493788721389,
+    "elapsed_s": 15.7544311999809,
+    "iters": 200.0
+  },
+  "int8": {
+    "val_loss": 1.4683493733406068,
+    "perplexity": 4.342062099226595,
+    "elapsed_s": 23.773630400013644,
+    "iters": 200.0
+  },
+  "ppl_regression_pct": 0.19772292111058976,
+  "pass_threshold_pct": 10.0,
+  "pass": true,
+  "diagnostic_weight_only": {
+    "val_loss": 1.466358699798584,
+    "perplexity": 4.333427068702805,
+    "elapsed_s": 16.4190060000401,
+    "iters": 200.0,
+    "ppl_regression_pct": -0.001539635726680939
+  },
+  "quality_hw_gate_note": "PASS means the deploy target must preserve this quality semantic; the current simplified argmax-attention RTL is not equivalent."
+}

@@ -1,0 +1,9 @@
+{
+  "python.defaultInterpreterPath": "C:\\Users\\Lenovo\\.conda\\envs\\myenv\\python.exe",
+  "python.terminal.activateEnvironment": false,
+  "code-runner.runInTerminal": false,
+  "code-runner.preserveFocus": false,
+  "code-runner.executorMap": {
+    "python": "F:\\nanogpt_ZYNQ\\deliverables\\nanogpt_zynq_qkt8_100mhz_final\\01_VSCode_Python\\run_python_myenv.cmd"
+  }
+}

@@ -1,0 +1,3 @@
+   text	   data	    bss	    dec	    hex	filename
+   7664	      8	  16392	  24064	   5e00	<repository-root>\fpga\nano_gpt\baremetal\ps_mailbox_runner\build\ps_mailbox_runner.elf
+ELF=<repository-root>\fpga\nano_gpt\baremetal\ps_mailbox_runner\build\ps_mailbox_runner.elf

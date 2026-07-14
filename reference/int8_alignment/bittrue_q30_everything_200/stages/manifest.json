@@ -1,0 +1,555 @@
+{
+  "layer_00_input": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_00_qkv_in": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_00_q": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_00_k": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_00_v": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_00_attn_in": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_00_attn_proj": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_00_res1": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_00_ln2_in": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_00_gelu_in": {
+    "shape": [
+      256,
+      1536
+    ],
+    "elements": 393216
+  },
+  "layer_00_gelu": {
+    "shape": [
+      256,
+      1536
+    ],
+    "elements": 393216
+  },
+  "layer_00_ffn": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_00_final": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_01_input": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_01_qkv_in": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_01_q": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_01_k": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_01_v": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_01_attn_in": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_01_attn_proj": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_01_res1": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_01_ln2_in": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_01_gelu_in": {
+    "shape": [
+      256,
+      1536
+    ],
+    "elements": 393216
+  },
+  "layer_01_gelu": {
+    "shape": [
+      256,
+      1536
+    ],
+    "elements": 393216
+  },
+  "layer_01_ffn": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_01_final": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_02_input": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_02_qkv_in": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_02_q": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_02_k": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_02_v": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_02_attn_in": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_02_attn_proj": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_02_res1": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_02_ln2_in": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_02_gelu_in": {
+    "shape": [
+      256,
+      1536
+    ],
+    "elements": 393216
+  },
+  "layer_02_gelu": {
+    "shape": [
+      256,
+      1536
+    ],
+    "elements": 393216
+  },
+  "layer_02_ffn": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_02_final": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_03_input": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_03_qkv_in": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_03_q": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_03_k": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_03_v": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_03_attn_in": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_03_attn_proj": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_03_res1": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_03_ln2_in": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_03_gelu_in": {
+    "shape": [
+      256,
+      1536
+    ],
+    "elements": 393216
+  },
+  "layer_03_gelu": {
+    "shape": [
+      256,
+      1536
+    ],
+    "elements": 393216
+  },
+  "layer_03_ffn": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_03_final": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_04_input": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_04_qkv_in": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_04_q": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_04_k": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_04_v": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_04_attn_in": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_04_attn_proj": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_04_res1": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_04_ln2_in": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_04_gelu_in": {
+    "shape": [
+      256,
+      1536
+    ],
+    "elements": 393216
+  },
+  "layer_04_gelu": {
+    "shape": [
+      256,
+      1536
+    ],
+    "elements": 393216
+  },
+  "layer_04_ffn": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_04_final": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_05_input": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_05_qkv_in": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_05_q": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_05_k": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_05_v": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_05_attn_in": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_05_attn_proj": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_05_res1": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_05_ln2_in": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_05_gelu_in": {
+    "shape": [
+      256,
+      1536
+    ],
+    "elements": 393216
+  },
+  "layer_05_gelu": {
+    "shape": [
+      256,
+      1536
+    ],
+    "elements": 393216
+  },
+  "layer_05_ffn": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "layer_05_final": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  },
+  "ln_f": {
+    "shape": [
+      256,
+      384
+    ],
+    "elements": 98304
+  }
+}

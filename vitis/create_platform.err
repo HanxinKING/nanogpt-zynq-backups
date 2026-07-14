@@ -1,0 +1,14 @@
+'DOSKEY' is not recognized as an internal or external command,
+operable program or batch file.
+MAKE_PROBE_ERROR=INFO: Could not find files for the given pattern(s).
+GCC_PROBE_ERROR=INFO: Could not find files for the given pattern(s).
+VITIS_PLATFORM_ERROR=Channel closed
+Channel closed
+    while executing
+"error [dict get $msg err]"
+    (procedure "xsdk_eval" line 15)
+    invoked from within
+"xsdk_eval $chan "XSDx" createAppFromPlatform "o{$fmt}" e [list $data]"
+    (procedure "app" line 401)
+    invoked from within
+"app create -name ps_mailbox_runner_vitis -platform nanogpt_qkt8_platform -domain standalone_domain -template {Empty Application(C)}"

@@ -1,0 +1,26 @@
+{
+  "created_at": "2026-07-14T19:15:48",
+  "reference_mode": "hardware_q30_bittrue",
+  "int8_decoder": "deterministic_top1_with_top3_8gram_fallback",
+  "fp32_decoder": "github_temperature_0.8_top_k_200_multinomial_seed_1337",
+  "prompt": "hello",
+  "requested_new_tokens": 2,
+  "compared_new_tokens": 2,
+  "input_token_ids": [
+    46,
+    43,
+    50,
+    50,
+    53
+  ],
+  "int8_generated_token_ids": [
+    61,
+    1
+  ],
+  "int8_text": "hellow ",
+  "fp32_generated_token_ids": [
+    61,
+    5
+  ],
+  "fp32_text": "hellow'"
+}

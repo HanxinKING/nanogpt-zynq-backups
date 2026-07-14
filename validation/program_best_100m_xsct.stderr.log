@@ -1,0 +1,7 @@
+no targets found with "name =~ "xc7z020*"". available targets: none
+    while executing
+"error "no targets found with \"$params(filter)\". available targets:$target_list""
+    (procedure "targets" line 177)
+    invoked from within
+"targets -set -filter {name =~ "xc7z020*"}"
+    (file "<repository-root>\fpga\nano_gpt\baremetal\ps_mailbox_runner\scripts\program_pl_only.tcl" line 13)

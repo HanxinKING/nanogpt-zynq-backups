@@ -1,0 +1,132 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2025.2 (win64) Build 6299465 Fri Nov 14 19:35:11 GMT 2025
+| Date         : Mon Jul 13 12:01:06 2026
+| Host         : <build-host> running 64-bit major release  (build 9200)
+| Command      : report_utilization -hierarchical -hierarchical_depth 6 -file <repository-root>/fpga/nano_gpt/generated/qkt8_pipe100_candidate/utilization_hierarchical_post_route.rpt
+| Design       : system_wrapper
+| Device       : xc7z020clg484-2
+| Speed File   : -2
+| Design State : Physopt postRoute
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Utilization Design Information
+
+Table of Contents
+-----------------
+1. Utilization by Hierarchy
+
+1. Utilization by Hierarchy
+---------------------------
+
++-------------------------------------------------------------------+----------------------------------------------------------------+------------+------------+---------+------+-------+--------+--------+------------+
+|                              Instance                             |                             Module                             | Total LUTs | Logic LUTs | LUTRAMs | SRLs |  FFs  | RAMB36 | RAMB18 | DSP Blocks |
++-------------------------------------------------------------------+----------------------------------------------------------------+------------+------------+---------+------+-------+--------+--------+------------+
+| system_wrapper                                                    |                                                          (top) |      27630 |      26802 |     632 |  196 | 31892 |    108 |      2 |        114 |
+|   (system_wrapper)                                                |                                                          (top) |          0 |          0 |       0 |    0 |     0 |      0 |      0 |          0 |
+|   system_i                                                        |                                                         system |      27630 |      26802 |     632 |  196 | 31892 |    108 |      2 |        114 |
+|     axi_dma_0                                                     |                                             system_axi_dma_0_0 |       1129 |       1033 |       8 |   88 |  1634 |      2 |      0 |          0 |
+|       U0                                                          |                                                        axi_dma |       1129 |       1033 |       8 |   88 |  1634 |      2 |      0 |          0 |
+|         INCLUDE_MM2S_SOF_EOF_GENERATOR.I_MM2S_DMA_MNGR            |                                              axi_dma_mm2s_mngr |         12 |         12 |       0 |    0 |    64 |      0 |      0 |          0 |
+|           GEN_MM2S_DMA_CONTROL.GEN_SIMPLE_DMA_MODE.I_MM2S_SMPL_SM |                                            axi_dma_smple_sm_24 |          8 |          8 |       0 |    0 |    53 |      0 |      0 |          0 |
+|         INCLUDE_S2MM_SOF_EOF_GENERATOR.I_S2MM_DMA_MNGR            |                                              axi_dma_s2mm_mngr |         21 |         21 |       0 |    0 |    80 |      0 |      0 |          0 |
+|           GEN_S2MM_DMA_CONTROL.GEN_SIMPLE_DMA_MODE.I_S2MM_SMPL_SM |                                               axi_dma_smple_sm |          8 |          8 |       0 |    0 |    53 |      0 |      0 |          0 |
+|         I_AXI_DMA_REG_MODULE                                      |                                             axi_dma_reg_module |        140 |        140 |       0 |    0 |   241 |      0 |      0 |          0 |
+|           GEN_AXI_LITE_IF.AXI_LITE_IF_I                           |                                                axi_dma_lite_if |        106 |        106 |       0 |    0 |    85 |      0 |      0 |          0 |
+|           GEN_MM2S_REGISTERS.I_MM2S_DMA_REGISTER                  |                                               axi_dma_register |         20 |         20 |       0 |    0 |    78 |      0 |      0 |          0 |
+|           GEN_S2MM_REGISTERS.I_S2MM_DMA_REGISTER                  |                                          axi_dma_register_s2mm |         14 |         14 |       0 |    0 |    78 |      0 |      0 |          0 |
+|         I_PRMRY_DATAMOVER                                         |                                                  axi_datamover |        940 |        844 |       8 |   88 |  1211 |      2 |      0 |          0 |
+|           GEN_MM2S_FULL.I_MM2S_FULL_WRAPPER                       |                                   axi_datamover_mm2s_full_wrap |        345 |        311 |       0 |   34 |   387 |      1 |      0 |          0 |
+|             GEN_INCLUDE_MM2S_SF.I_RD_SF                           |                                            axi_datamover_rd_sf |         82 |         80 |       0 |    2 |    61 |      1 |      0 |          0 |
+|             I_CMD_STATUS                                          |                                       axi_datamover_cmd_status |         13 |         13 |       0 |    0 |    59 |      0 |      0 |          0 |
+|             I_MSTR_PCC                                            |                                              axi_datamover_pcc |        150 |        150 |       0 |    0 |   157 |      0 |      0 |          0 |
+|           GEN_S2MM_FULL.I_S2MM_FULL_WRAPPER                       |                                   axi_datamover_s2mm_full_wrap |        595 |        533 |       8 |   54 |   824 |      1 |      0 |          0 |
+|             GEN_ENABLE_INDET_BTT_SF.I_INDET_BTT                   |                                        axi_datamover_indet_btt |        160 |        152 |       8 |    0 |   209 |      1 |      0 |          0 |
+|             GEN_INCLUDE_IBTTCC.I_S2MM_MSTR_IBTTCC                 |                                           axi_datamover_ibttcc |        106 |        106 |       0 |    0 |   218 |      0 |      0 |          0 |
+|             GEN_INCLUDE_REALIGNER.I_S2MM_REALIGNER                |                                     axi_datamover_s2mm_realign |        121 |        106 |       0 |   15 |    79 |      0 |      0 |          0 |
+|             I_CMD_STATUS                                          |                       axi_datamover_cmd_status__parameterized0 |         19 |         19 |       0 |    0 |    75 |      0 |      0 |          0 |
+|             I_S2MM_MMAP_SKID_BUF                                  |                                      axi_datamover_skid2mm_buf |         35 |         35 |       0 |    0 |    79 |      0 |      0 |          0 |
+|             I_WR_DATA_CNTL                                        |                                      axi_datamover_wrdata_cntl |         72 |         64 |       0 |    8 |    50 |      0 |      0 |          0 |
+|     hls_kernel_chain_axis_top_0                                   |                           system_hls_kernel_chain_axis_top_0_0 |      22304 |      22296 |       0 |    8 | 24925 |    106 |      2 |        114 |
+|       inst                                                        |                                      hls_kernel_chain_axis_top |      22304 |      22296 |       0 |    8 | 24925 |    106 |      2 |        114 |
+|         u_core                                                    |                           hls_kernel_chain_axis_full_only_core |      22304 |      22296 |       0 |    8 | 24925 |    106 |      2 |        114 |
+|           (u_core)                                                |                           hls_kernel_chain_axis_full_only_core |      20939 |      20939 |       0 |    0 | 22621 |    106 |      2 |         97 |
+|           u_pl_uart_ps_bridge                                     |                                              pl_uart_ps_bridge |        308 |        308 |       0 |    0 |   355 |      0 |      0 |          0 |
+|           u_quality_ge                                            |                                         gelu_embed_hls_wrapper |        218 |        218 |       0 |    0 |   559 |      0 |      0 |          0 |
+|             (u_quality_ge)                                        |                                         gelu_embed_hls_wrapper |          4 |          4 |       0 |    0 |   524 |      0 |      0 |          0 |
+|             u_ge                                                  |                                              gelu_embed_kernel |        214 |        214 |       0 |    0 |    35 |      0 |      0 |          0 |
+|           u_quality_ln                                            |                                          layernorm_hls_wrapper |        841 |        833 |       0 |    8 |  1390 |      0 |      0 |         17 |
+|             u_ln                                                  |                                               layernorm_kernel |        841 |        833 |       0 |    8 |  1382 |      0 |      0 |         17 |
+|     smartconnect_ddr                                              |                                      system_smartconnect_ddr_0 |       3677 |       3015 |     624 |   38 |  4639 |      0 |      0 |          0 |
+|       inst                                                        |                                                        bd_140e |       3677 |       3015 |     624 |   38 |  4639 |      0 |      0 |          0 |
+|         m00_exit_pipeline                                         |                                   m00_exit_pipeline_imp_P3N1N1 |        581 |        563 |       0 |   18 |   956 |      0 |      0 |          0 |
+|           m00_exit                                                |                                                 bd_140e_m00e_0 |        581 |        563 |       0 |   18 |   956 |      0 |      0 |          0 |
+|             inst                                                  |                                            sc_exit_v1_0_18_top |        581 |        563 |       0 |   18 |   956 |      0 |      0 |          0 |
+|         m00_nodes                                                 |                                           m00_nodes_imp_2UGVMP |        623 |        411 |     210 |    2 |   605 |      0 |      0 |          0 |
+|           m00_ar_node                                             |                                               bd_140e_m00arn_0 |        125 |         73 |      52 |    0 |   128 |      0 |      0 |          0 |
+|             inst                                                  |                                            sc_node_v1_0_19_top |        125 |         73 |      52 |    0 |   128 |      0 |      0 |          0 |
+|           m00_aw_node                                             |                                               bd_140e_m00awn_0 |        136 |         88 |      46 |    2 |   134 |      0 |      0 |          0 |
+|             inst                                                  |                            sc_node_v1_0_19_top__parameterized0 |        136 |         88 |      46 |    2 |   134 |      0 |      0 |          0 |
+|           m00_b_node                                              |                                                bd_140e_m00bn_0 |         84 |         80 |       4 |    0 |    65 |      0 |      0 |          0 |
+|             inst                                                  |                            sc_node_v1_0_19_top__parameterized1 |         84 |         80 |       4 |    0 |    65 |      0 |      0 |          0 |
+|           m00_r_node                                              |                                                bd_140e_m00rn_0 |        137 |         81 |      56 |    0 |   133 |      0 |      0 |          0 |
+|             inst                                                  |                            sc_node_v1_0_19_top__parameterized2 |        137 |         81 |      56 |    0 |   133 |      0 |      0 |          0 |
+|           m00_w_node                                              |                                                bd_140e_m00wn_0 |        142 |         90 |      52 |    0 |   145 |      0 |      0 |          0 |
+|             inst                                                  |                            sc_node_v1_0_19_top__parameterized3 |        142 |         90 |      52 |    0 |   145 |      0 |      0 |          0 |
+|         s00_entry_pipeline                                        |                                 s00_entry_pipeline_imp_1OB8W0E |        159 |        159 |       0 |    0 |   260 |      0 |      0 |          0 |
+|           s00_mmu                                                 |                                               bd_140e_s00mmu_0 |        148 |        148 |       0 |    0 |   256 |      0 |      0 |          0 |
+|             inst                                                  |                                             sc_mmu_v1_0_16_top |        148 |        148 |       0 |    0 |   256 |      0 |      0 |          0 |
+|         s00_nodes                                                 |                                          s00_nodes_imp_1KUQVX0 |        277 |        175 |     102 |    0 |   252 |      0 |      0 |          0 |
+|           s00_ar_node                                             |                                                 bd_140e_sarn_0 |        126 |         72 |      54 |    0 |   130 |      0 |      0 |          0 |
+|             inst                                                  |                            sc_node_v1_0_19_top__parameterized4 |        126 |         72 |      54 |    0 |   130 |      0 |      0 |          0 |
+|           s00_r_node                                              |                                                  bd_140e_srn_0 |        151 |        103 |      48 |    0 |   122 |      0 |      0 |          0 |
+|             inst                                                  |                            sc_node_v1_0_19_top__parameterized5 |        151 |        103 |      48 |    0 |   122 |      0 |      0 |          0 |
+|         s01_entry_pipeline                                        |                                  s01_entry_pipeline_imp_ID0SM2 |        176 |        171 |       0 |    5 |   294 |      0 |      0 |          0 |
+|           s01_mmu                                                 |                                               bd_140e_s01mmu_0 |        130 |        130 |       0 |    0 |   276 |      0 |      0 |          0 |
+|             inst                                                  |                             sc_mmu_v1_0_16_top__parameterized0 |        130 |        130 |       0 |    0 |   276 |      0 |      0 |          0 |
+|         s01_nodes                                                 |                                           s01_nodes_imp_MQ50F6 |        320 |        214 |     106 |    0 |   383 |      0 |      0 |          0 |
+|           s01_aw_node                                             |                                                 bd_140e_sawn_0 |        122 |         72 |      50 |    0 |   120 |      0 |      0 |          0 |
+|             inst                                                  |                            sc_node_v1_0_19_top__parameterized6 |        122 |         72 |      50 |    0 |   120 |      0 |      0 |          0 |
+|           s01_b_node                                              |                                                  bd_140e_sbn_0 |         68 |         66 |       2 |    0 |    52 |      0 |      0 |          0 |
+|             inst                                                  |                            sc_node_v1_0_19_top__parameterized7 |         68 |         66 |       2 |    0 |    52 |      0 |      0 |          0 |
+|           s01_w_node                                              |                                                  bd_140e_swn_0 |        131 |         77 |      54 |    0 |   211 |      0 |      0 |          0 |
+|             inst                                                  |                            sc_node_v1_0_19_top__parameterized8 |        131 |         77 |      54 |    0 |   211 |      0 |      0 |          0 |
+|         s02_entry_pipeline                                        |                                  s02_entry_pipeline_imp_EN8I5J |        800 |        788 |       0 |   12 |  1025 |      0 |      0 |          0 |
+|           s02_mmu                                                 |                                               bd_140e_s02mmu_0 |        346 |        346 |       0 |    0 |   670 |      0 |      0 |          0 |
+|             inst                                                  |                             sc_mmu_v1_0_16_top__parameterized1 |        346 |        346 |       0 |    0 |   670 |      0 |      0 |          0 |
+|           s02_si_converter                                        |                                               bd_140e_s02sic_0 |        456 |        444 |       0 |   12 |   355 |      0 |      0 |          0 |
+|             inst                                                  |                    sc_si_converter_v1_0_16_top__parameterized1 |        456 |        444 |       0 |   12 |   355 |      0 |      0 |          0 |
+|         s02_nodes                                                 |                                           s02_nodes_imp_CMUDO9 |        559 |        353 |     206 |    0 |   546 |      0 |      0 |          0 |
+|           s02_ar_node                                             |                                                 bd_140e_sarn_1 |        127 |         73 |      54 |    0 |   130 |      0 |      0 |          0 |
+|             inst                                                  |                            sc_node_v1_0_19_top__parameterized9 |        127 |         73 |      54 |    0 |   130 |      0 |      0 |          0 |
+|           s02_aw_node                                             |                                                 bd_140e_sawn_1 |        123 |         73 |      50 |    0 |   120 |      0 |      0 |          0 |
+|             inst                                                  |                           sc_node_v1_0_19_top__parameterized10 |        123 |         73 |      50 |    0 |   120 |      0 |      0 |          0 |
+|           s02_b_node                                              |                                                  bd_140e_sbn_1 |         68 |         66 |       2 |    0 |    52 |      0 |      0 |          0 |
+|             inst                                                  |                           sc_node_v1_0_19_top__parameterized11 |         68 |         66 |       2 |    0 |    52 |      0 |      0 |          0 |
+|           s02_r_node                                              |                                                  bd_140e_srn_1 |        112 |         66 |      46 |    0 |   117 |      0 |      0 |          0 |
+|             inst                                                  |                           sc_node_v1_0_19_top__parameterized12 |        112 |         66 |      46 |    0 |   117 |      0 |      0 |          0 |
+|           s02_w_node                                              |                                                  bd_140e_swn_1 |        129 |         75 |      54 |    0 |   127 |      0 |      0 |          0 |
+|             inst                                                  |                           sc_node_v1_0_19_top__parameterized13 |        129 |         75 |      54 |    0 |   127 |      0 |      0 |          0 |
+|         switchboards                                              |                                       switchboards_imp_1ACR9XC |        179 |        179 |       0 |    0 |   288 |      0 |      0 |          0 |
+|           ar_switchboard                                          |                                                 bd_140e_arsw_0 |         40 |         40 |       0 |    0 |    77 |      0 |      0 |          0 |
+|             inst                                                  |                                      sc_switchboard_v1_0_9_top |         40 |         40 |       0 |    0 |    77 |      0 |      0 |          0 |
+|           aw_switchboard                                          |                                                 bd_140e_awsw_0 |         67 |         67 |       0 |    0 |    67 |      0 |      0 |          0 |
+|             inst                                                  |                                   sc_switchboard_v1_0_9_top__1 |         67 |         67 |       0 |    0 |    67 |      0 |      0 |          0 |
+|           r_switchboard                                           |                                                  bd_140e_rsw_0 |          0 |          0 |       0 |    0 |    70 |      0 |      0 |          0 |
+|             inst                                                  |                      sc_switchboard_v1_0_9_top__parameterized1 |          0 |          0 |       0 |    0 |    70 |      0 |      0 |          0 |
+|           w_switchboard                                           |                                                  bd_140e_wsw_0 |         72 |         72 |       0 |    0 |    72 |      0 |      0 |          0 |
+|             inst                                                  |                      sc_switchboard_v1_0_9_top__parameterized2 |         72 |         72 |       0 |    0 |    72 |      0 |      0 |          0 |
+|     smartconnect_gp0                                              |                                      system_smartconnect_gp0_0 |        505 |        444 |       0 |   61 |   657 |      0 |      0 |          0 |
+|       s00_couplers                                                |                                       s00_couplers_imp_15Q1S7W |        391 |        330 |       0 |   61 |   532 |      0 |      0 |          0 |
+|         auto_pc                                                   |                          system_smartconnect_gp0_imp_auto_pc_0 |        391 |        330 |       0 |   61 |   532 |      0 |      0 |          0 |
+|           inst                                                    |          axi_protocol_converter_v2_1_37_axi_protocol_converter |        391 |        330 |       0 |   61 |   532 |      0 |      0 |          0 |
+|             gen_axilite.gen_b2s_conv.axilite_b2s                  |                             axi_protocol_converter_v2_1_37_b2s |        391 |        330 |       0 |   61 |   532 |      0 |      0 |          0 |
+|       xbar                                                        |                             system_smartconnect_gp0_imp_xbar_0 |        114 |        114 |       0 |    0 |   125 |      0 |      0 |          0 |
+|         inst                                                      |                              axi_crossbar_v2_1_38_axi_crossbar |        114 |        114 |       0 |    0 |   125 |      0 |      0 |          0 |
+|           gen_sasd.crossbar_sasd_0                                |                             axi_crossbar_v2_1_38_crossbar_sasd |        114 |        114 |       0 |    0 |   125 |      0 |      0 |          0 |
+|             reg_slice_r                                           | axi_register_slice_v2_1_36_axic_register_slice__parameterized7 |         37 |         37 |       0 |    0 |    74 |      0 |      0 |          0 |
+|             addr_arbiter_inst                                     |                         axi_crossbar_v2_1_38_addr_arbiter_sasd |         65 |         65 |       0 |    0 |    36 |      0 |      0 |          0 |
++-------------------------------------------------------------------+----------------------------------------------------------------+------------+------------+---------+------+-------+--------+--------+------------+
+* Note: The sum of lower-level cells may be larger than their parent cells total, due to cross-hierarchy LUT combining
+
+

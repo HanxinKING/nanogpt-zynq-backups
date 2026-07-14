@@ -1,0 +1,29 @@
+{
+  "mode": "w8a8_fake_quant",
+  "checkpoint": "python\\nanoGPT\\out-shakespeare-char\\ckpt.pt",
+  "output_package": "01_VSCode_Python\\demo_outputs\\nanogpt_w8a8_demo.pt",
+  "quantized_modules": 27,
+  "int8_tensor_count": 27,
+  "scale_tensor_count": 52,
+  "fp32_state_bytes": 43080192,
+  "int8_weight_bytes": 10765056,
+  "scale_bytes": 84588,
+  "model_args": {
+    "n_layer": 6,
+    "n_head": 6,
+    "n_embd": 384,
+    "block_size": 256,
+    "bias": false,
+    "vocab_size": 65,
+    "dropout": 0.2
+  },
+  "hardware_exact_quality_baseline": {
+    "mode": "quality_exact_hw_full_s256_d384_l6",
+    "fp32_loss": 1.4663740962743759,
+    "int8_loss": 1.5061770606040954,
+    "fp32_ppl": 4.333493788721389,
+    "int8_ppl": 4.509458413494683,
+    "ppl_regression_pct": 4.060571754626027,
+    "gate": "PASS (<10%)"
+  }
+}

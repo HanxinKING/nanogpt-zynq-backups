@@ -1,0 +1,29 @@
+{
+  "kind": "ps_embedding_q30",
+  "q_bits": 30,
+  "token_scale": {
+    "shape": [
+      65
+    ],
+    "ddr_base": "0x13028000",
+    "file": "F:\\nanogpt_ZYNQ\\nanogpt_ZYNQ\\fpga\\nano_gpt\\generated\\ps_ddr_embedding_tables\\token_embedding_scale_q30.bin"
+  },
+  "position_scale": {
+    "shape": [
+      256
+    ],
+    "ddr_base": "0x13028400",
+    "file": "F:\\nanogpt_ZYNQ\\nanogpt_ZYNQ\\fpga\\nano_gpt\\generated\\ps_ddr_embedding_tables\\position_embedding_scale_q30.bin"
+  },
+  "algorithm": "hidden_q30 = token_i8*token_scale_q30 + position_i8*position_scale_q30; hidden_i8 = round(hidden_q30*127/max_abs_q30)",
+  "prompt": "hello world",
+  "max_abs_q30": 541338293,
+  "comparison_to_quality_input": {
+    "elements": 98304,
+    "mismatch": 0,
+    "match_ratio": 1.0,
+    "mean_abs_error": 0.0,
+    "max_abs_error": 0,
+    "first_mismatch_flat_index": null
+  }
+}

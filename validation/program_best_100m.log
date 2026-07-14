@@ -1,0 +1,44 @@
+#-----------------------------------------------------------
+# Vivado v2025.2 (64-bit)
+# SW Build 6299465 on Fri Nov 14 19:35:11 GMT 2025
+# IP Build 6300035 on Fri Nov 14 10:48:45 MST 2025
+# SharedData Build 6298862 on Thu Nov 13 04:50:51 MST 2025
+# Start of session at: Tue Jul 14 21:57:45 2026
+# Process ID         : 31800
+# Current directory  : <repository-root>
+# Command line       : vivado.exe -mode batch -source <repository-root>\validation\program_best_100m.tcl -nojournal -log <repository-root>\validation\program_best_100m.log
+# Log file           : <repository-root>/validation/program_best_100m.log
+# Journal file       : 
+# Running On         : <build-host>
+# Platform           : Windows Server 2016 or Windows 10
+# Operating System   : 26200
+# Processor Detail   : Intel(R) Core(TM) i9-14900HX
+# CPU Frequency      : 2419 MHz
+# CPU Physical cores : 24
+# CPU Logical cores  : 32
+# Host memory        : 16961 MB
+# Swap memory        : 25769 MB
+# Total Virtual      : 42731 MB
+# Available Virtual  : 23098 MB
+#-----------------------------------------------------------
+source {<repository-root>\validation\program_best_100m.tcl}
+# set bit_file "<repository-root>/artifacts/system.bit"
+# if {![file exists $bit_file]} {
+#     puts "PROGRAM_100M_RESULT=FAIL reason=missing_bit"
+#     exit 1
+# }
+# open_hw_manager
+open_hw_manager: Time (s): cpu = 00:00:08 ; elapsed = 00:00:07 . Memory (MB): peak = 569.914 ; gain = 222.488
+# connect_hw_server -url localhost:3121 -allow_non_jtag
+INFO: [Labtools 27-2285] Connecting to hw_server url TCP:localhost:3121
+INFO: [Labtools 27-3415] Connecting to cs_server url TCP:localhost:0
+INFO: [Labtools 27-3417] Launching cs_server...
+INFO: [Labtools 27-2221] Launch Output:
+
+ERROR: [Labtools 27-3733] Error during cs_server initialization: Unable to connect to cs_server at URL: TCP:localhost:0.
+ERROR: [Common 17-39] 'connect_hw_server' failed due to earlier errors.
+
+    while executing
+"connect_hw_server -url localhost:3121 -allow_non_jtag"
+    (file "<repository-root>\validation\program_best_100m.tcl" line 9)
+INFO: [Common 17-206] Exiting Vivado at Tue Jul 14 21:57:57 2026...
