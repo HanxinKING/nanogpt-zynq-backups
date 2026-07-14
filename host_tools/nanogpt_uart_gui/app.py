@@ -1,10 +1,8 @@
 from __future__ import annotations
 
-import ast
 import json
 import os
 import queue
-import re
 import time
 import tkinter as tk
 import ctypes
@@ -23,15 +21,8 @@ from protocol import (
     effective_output_limit,
 )
 from serial_worker import PortInfo, SerialWorker, available_ports
-from pc_runner import PcReferenceWorker, default_python_executable
-
-
 APP_NAME = "科创课堂 nanoGPT Zynq 串口平台"
 APP_VERSION = "1.4.0"
-DEFAULT_PC_SCRIPT = (
-    Path(__file__).resolve().parents[2] / "01_VSCode_Python" / "02_token_console.py"
-)
-
 COLORS = {
     "nav": "#17212B",
     "nav_2": "#22303C",
@@ -75,15 +66,6 @@ def build_log_header(port: str, baud: str, exported_at: datetime | None = None) 
     )
 
 
-def normalize_script_path(value: str) -> str:
-    """Normalize a pasted Windows path, including Explorer's quoted form."""
-    cleaned = value.strip().strip('"').strip("'").strip()
-    if not cleaned:
-        return ""
-    expanded = os.path.expandvars(os.path.expanduser(cleaned))
-    return str(Path(expanded).resolve())
-
-
 class NanoGptHostApp(tk.Tk):
     def __init__(self) -> None:
         super().__init__()
@@ -99,7 +81,6 @@ class NanoGptHostApp(tk.Tk):
 
         self.events: queue.Queue[tuple[str, object]] = queue.Queue()
         self.worker = SerialWorker(self.events)
-        self.pc_worker = PcReferenceWorker(self.events)
         self.tracker = ResponseTracker()
         self.ports: list[PortInfo] = []
         self.session_log: list[str] = []
@@ -110,10 +91,6 @@ class NanoGptHostApp(tk.Tk):
         self.generated_tokens = 0
         self.request_id = 0
         self.board_complete = True
-        self.pc_complete = True
-        self.board_output = ""
-        self.pc_output = ""
-        self.pc_fp32_output = ""
         self.settings_path = self._settings_path()
 
         self.port_var = tk.StringVar()
@@ -129,11 +106,6 @@ class NanoGptHostApp(tk.Tk):
         self.count_var = tk.StringVar(value="0")
         self.bytes_var = tk.StringVar(value="TX 0  /  RX 0")
         self.auto_scroll_var = tk.BooleanVar(value=True)
-        self.pc_enabled_var = tk.BooleanVar(value=DEFAULT_PC_SCRIPT.is_file())
-        self.pc_script_var = tk.StringVar(value=str(DEFAULT_PC_SCRIPT))
-        self.pc_status_var = tk.StringVar(
-            value="PC 文件已就绪" if DEFAULT_PC_SCRIPT.is_file() else "固定 PC 文件不存在"
-        )
 
         self._configure_styles()
         self._build_layout()
@@ -366,87 +338,8 @@ class NanoGptHostApp(tk.Tk):
         side.grid(row=0, column=1, sticky="nsew")
         side.grid_propagate(False)
         self._build_metrics_card(side)
-        self._build_comparison_card(side)
-
-    def _build_comparison_card(self, parent: tk.Frame) -> None:
-        card = self._card(parent, "板卡 / PC 对照")
-        controls = tk.Frame(card, bg=COLORS["panel"])
-        controls.pack(fill="x")
-        ttk.Checkbutton(
-            controls,
-            text="启用 PC 对照",
-            variable=self.pc_enabled_var,
-        ).pack(side="left")
-        tk.Label(
-            controls,
-            text="固定参考程序",
-            bg=COLORS["panel"],
-            fg=COLORS["accent"],
-            font=("Microsoft YaHei UI", 8, "bold"),
-        ).pack(side="right")
-        tk.Label(
-            card,
-            text="Python 文件路径（可直接粘贴）",
-            bg=COLORS["panel"],
-            fg=COLORS["muted"],
-            font=("Microsoft YaHei UI", 8),
-            anchor="w",
-        ).pack(fill="x", pady=(8, 3))
-        self.pc_script_entry = tk.Entry(
-            card,
-            textvariable=self.pc_script_var,
-            bg="#F8FAFB",
-            fg=COLORS["text"],
-            insertbackground=COLORS["text"],
-            relief="solid",
-            bd=1,
-            font=("Cascadia Mono", 8),
-            state="readonly",
-            readonlybackground="#F2F5F7",
-        )
-        self.pc_script_entry.pack(fill="x", ipady=5)
-        tk.Label(
-            card,
-            text="已自动绑定，无需手动选择",
-            bg=COLORS["panel"],
-            fg=COLORS["muted"],
-            font=("Microsoft YaHei UI", 8),
-            anchor="w",
-            justify="left",
-            wraplength=300,
-        ).pack(fill="x", pady=(6, 4))
-        tk.Label(
-            card,
-            textvariable=self.pc_status_var,
-            bg=COLORS["panel"],
-            fg=COLORS["accent"],
-            font=("Microsoft YaHei UI", 8, "bold"),
-            anchor="w",
-        ).pack(fill="x", pady=(0, 6))
-
-        tk.Label(card, text="板卡输出", bg=COLORS["panel"], fg=COLORS["muted"], font=("Microsoft YaHei UI", 8)).pack(anchor="w")
-        self.board_compare_text = self._comparison_text(card)
-        tk.Label(card, text="PC INT8 输出", bg=COLORS["panel"], fg=COLORS["muted"], font=("Microsoft YaHei UI", 8)).pack(anchor="w", pady=(6, 0))
-        self.pc_compare_text = self._comparison_text(card)
-        tk.Label(card, text="GitHub 原始 FP32 输出", bg=COLORS["panel"], fg=COLORS["muted"], font=("Microsoft YaHei UI", 8)).pack(anchor="w", pady=(6, 0))
-        self.pc_fp32_text = self._comparison_text(card)
-    @staticmethod
-    def _comparison_text(parent: tk.Frame) -> tk.Text:
-        widget = tk.Text(
-            parent,
-            height=2,
-            wrap="word",
-            bg="#F5F8FA",
-            fg=COLORS["text"],
-            relief="solid",
-            bd=1,
-            padx=7,
-            pady=5,
-            font=("Cascadia Mono", 8),
-            state="disabled",
-        )
-        widget.pack(fill="x", pady=(2, 0))
-        return widget
+        self._build_status_card(side)
+        self._build_protocol_card(side)
 
     def _build_status_card(self, parent: tk.Frame) -> None:
         card = self._card(parent, "设备状态")
@@ -532,40 +425,6 @@ class NanoGptHostApp(tk.Tk):
         self.send_button = ttk.Button(action_box, text="发送并生成", command=self._send_prompt, style="Primary.TButton", state="disabled")
         self.send_button.pack(fill="x", pady=(7, 0))
 
-    def _select_pc_script(self) -> None:
-        initial = Path(self.pc_script_var.get()).parent if self.pc_script_var.get() else Path.home()
-        path = filedialog.askopenfilename(
-            parent=self,
-            title="选择 PC 对照 Python 文件",
-            initialdir=str(initial) if initial.exists() else str(Path.home()),
-            filetypes=(("Python 文件", "*.py"), ("所有文件", "*.*")),
-        )
-        if not path:
-            return
-        self.pc_script_var.set(str(Path(path).resolve()))
-        self.pc_enabled_var.set(True)
-        self.pc_status_var.set("PC 文件已就绪")
-        self._save_settings()
-
-    def _commit_pc_script_path(self, _event: tk.Event | None = None) -> None:
-        path = normalize_script_path(self.pc_script_var.get())
-        self.pc_script_var.set(path)
-        if not path:
-            self.pc_status_var.set("请粘贴或选择 Python 文件")
-        elif Path(path).is_file() and Path(path).suffix.lower() == ".py":
-            self.pc_enabled_var.set(True)
-            self.pc_status_var.set("PC 文件已就绪")
-        else:
-            self.pc_status_var.set("路径无效：请选择 .py 文件")
-        self._save_settings()
-
-    @staticmethod
-    def _set_text(widget: tk.Text, value: str) -> None:
-        widget.configure(state="normal")
-        widget.delete("1.0", "end")
-        widget.insert("1.0", value)
-        widget.configure(state="disabled")
-
     def _refresh_ports(self) -> None:
         current_device = self._selected_device()
         self.ports = available_ports()
@@ -621,7 +480,6 @@ class NanoGptHostApp(tk.Tk):
     def _disconnect(self) -> None:
         device = self._selected_device()
         self.worker.disconnect()
-        self.pc_worker.stop()
         self._set_status("未连接", COLORS["muted"], "选择串口后建立连接")
         self.connect_button.configure(text="连接设备", style="Primary.TButton")
         self.send_button.configure(state="disabled")
@@ -632,16 +490,6 @@ class NanoGptHostApp(tk.Tk):
     def _send_prompt(self) -> None:
         if not self.worker.connected:
             messagebox.showwarning("设备未连接", "请先连接串口设备。", parent=self)
-            return
-        pc_enabled = bool(self.pc_enabled_var.get())
-        pc_script = normalize_script_path(self.pc_script_var.get())
-        self.pc_script_var.set(pc_script)
-        if pc_enabled and (not Path(pc_script).is_file() or Path(pc_script).suffix.lower() != ".py"):
-            messagebox.showwarning(
-                "PC 对照文件无效",
-                "请粘贴或选择有效的 .py 文件路径。",
-                parent=self,
-            )
             return
         try:
             requested = int(self.token_var.get())
@@ -655,14 +503,6 @@ class NanoGptHostApp(tk.Tk):
         self.tracker.reset()
         self.request_id += 1
         self.board_complete = False
-        self.pc_complete = not pc_enabled
-        self.board_output = ""
-        self.pc_output = ""
-        self.pc_fp32_output = ""
-        self._set_text(self.board_compare_text, "等待板卡输出...")
-        self._set_text(self.pc_compare_text, "等待 PC 输出..." if pc_enabled else "PC 对照未启用")
-        self._set_text(self.pc_fp32_text, "等待 GitHub 原始 FP32 输出..." if pc_enabled else "PC 对照未启用")
-        self.pc_status_var.set("PC 正在运行..." if pc_enabled else "PC 对照未启用")
         self.request_started = time.monotonic()
         self.first_output_at = None
         self.generated_tokens = 0
@@ -677,19 +517,6 @@ class NanoGptHostApp(tk.Tk):
         self.status_var.set("生成中")
         self.connection_detail_var.set("模型正在执行六层 INT8 推理")
         self.send_button.configure(state="disabled")
-        if pc_enabled:
-            try:
-                self.pc_worker.start(
-                    self.request_id,
-                    default_python_executable(),
-                    pc_script,
-                    prompt,
-                    requested,
-                )
-            except (OSError, RuntimeError, FileNotFoundError) as exc:
-                self.pc_complete = True
-                self.pc_status_var.set(f"PC 启动失败：{exc}")
-                self._set_text(self.pc_compare_text, str(exc))
 
     def _process_events(self) -> None:
         while True:
@@ -702,12 +529,6 @@ class NanoGptHostApp(tk.Tk):
             elif event == "error":
                 self._append_terminal(f"\n[串口错误] {payload}\n", "error")
                 self._disconnect()
-            elif event == "pc_done" and isinstance(payload, dict):
-                self._handle_pc_done(payload)
-            elif event == "pc_progress" and isinstance(payload, dict):
-                self._handle_pc_progress(payload)
-            elif event == "pc_error" and isinstance(payload, dict):
-                self._handle_pc_error(payload)
         self.after(40, self._process_events)
 
     def _handle_data(self, data: bytes) -> None:
@@ -731,94 +552,14 @@ class NanoGptHostApp(tk.Tk):
                 self.speed_var.set(f"{result.generated_tokens / elapsed:.2f} 字符/s")
             self.board_complete = True
             self.board_output = result.text
-            self._set_text(self.board_compare_text, result.text)
-            self._update_comparison()
             self.request_started = None
             self._finish_request_if_ready()
 
-    def _handle_pc_done(self, payload: dict[str, object]) -> None:
-        if int(payload.get("request_id", -1)) != self.request_id:
-            return
-        self.pc_complete = True
-        return_code = int(payload.get("return_code", -1))
-        elapsed = float(payload.get("elapsed_seconds", 0.0))
-        generated = str(payload.get("generated_text", ""))
-        fp32_generated = str(payload.get("fp32_text", ""))
-        stderr = str(payload.get("stderr", ""))
-        stdout = str(payload.get("stdout", ""))
-        if return_code != 0:
-            self.pc_status_var.set(f"PC failed ({return_code})")
-            self._set_text(self.pc_compare_text, stderr.strip() or stdout.strip()[-600:] or "PC program failed")
-        else:
-            self.pc_output = generated
-            self.pc_fp32_output = fp32_generated
-            self.pc_status_var.set(f"PC complete: {elapsed:.2f} s")
-            self._set_text(self.pc_compare_text, generated or "No structured INT8 output")
-            self._set_text(self.pc_fp32_text, fp32_generated or "No structured FP32 output")
-        self._update_comparison()
-        self._finish_request_if_ready()
-
-    def _handle_pc_progress(self, payload: dict[str, object]) -> None:
-        if int(payload.get("request_id", -1)) != self.request_id:
-            return
-        line = str(payload.get("line", ""))
-        elapsed = float(payload.get("elapsed_seconds", 0.0))
-        total = int(payload.get("max_new_tokens", 0))
-        step_match = re.search(r"(INT8-Q30|FP32) step\s+(\d+)", line)
-        if step_match:
-            phase = "INT8" if step_match.group(1) == "INT8-Q30" else "FP32"
-            self.pc_status_var.set(f"PC {phase} {int(step_match.group(2))}/{total} · {elapsed:.1f} s")
-        int8_text = self._streamed_output(line, "INT8 完整输出:")
-        if int8_text is not None:
-            self.pc_output = self._without_prompt(int8_text)
-            self._set_text(self.pc_compare_text, self.pc_output)
-            self.pc_status_var.set(f"PC INT8 已完成，继续计算 FP32 · {elapsed:.1f} s")
-        fp32_text = self._streamed_output(line, "FP32 完整输出:")
-        if fp32_text is not None:
-            self.pc_fp32_output = self._without_prompt(fp32_text)
-            self._set_text(self.pc_fp32_text, self.pc_fp32_output)
-
-    @staticmethod
-    def _streamed_output(line: str, prefix: str) -> str | None:
-        if not line.startswith(prefix):
-            return None
-        try:
-            value = ast.literal_eval(line[len(prefix) :].strip())
-        except (SyntaxError, ValueError):
-            return None
-        return str(value)
-
-    def _without_prompt(self, text: str) -> str:
-        prompt = self.prompt_var.get()
-        return text[len(prompt) :] if text.startswith(prompt) else text
-
-    def _handle_pc_error(self, payload: dict[str, object]) -> None:
-        if int(payload.get("request_id", -1)) != self.request_id:
-            return
-        self.pc_complete = True
-        message = str(payload.get("message", "Unknown PC error"))
-        self.pc_status_var.set("PC error")
-        self._set_text(self.pc_compare_text, message)
-        self._set_text(self.pc_fp32_text, message)
-        self._finish_request_if_ready()
-
-    def _update_comparison(self) -> None:
-        if not self.board_complete or not self.pc_complete:
-            return
-        if not self.pc_enabled_var.get():
-            self.connection_detail_var.set("板卡生成完成")
-            return
-        self.connection_detail_var.set("板卡与 PC 输出均已完成")
-
     def _finish_request_if_ready(self) -> None:
-        if self.board_complete and self.pc_complete:
+        if self.board_complete:
             self.status_var.set("已连接")
-            self.connection_detail_var.set("Board and PC generation complete")
+            self.connection_detail_var.set("板卡生成完成")
             self.send_button.configure(state="normal")
-        elif self.board_complete:
-            self.connection_detail_var.set("Board complete; waiting for PC reference")
-        elif self.pc_complete:
-            self.connection_detail_var.set("PC complete; waiting for board")
 
     def _update_timer(self) -> None:
         if self.request_started is not None and self.first_output_at is not None:
@@ -896,9 +637,6 @@ class NanoGptHostApp(tk.Tk):
             self.baud_var.set(str(data.get("baud", "115200")))
             self.token_var.set(int(data.get("tokens", DEFAULT_OUTPUT_TOKENS)))
             self.prompt_var.set(str(data.get("prompt", "hello world")))
-            self.pc_script_var.set(str(DEFAULT_PC_SCRIPT))
-            self.pc_enabled_var.set(DEFAULT_PC_SCRIPT.is_file())
-            self.pc_status_var.set("PC 文件已就绪" if DEFAULT_PC_SCRIPT.is_file() else "固定 PC 文件不存在")
         except (OSError, ValueError, json.JSONDecodeError):
             pass
 
@@ -908,8 +646,6 @@ class NanoGptHostApp(tk.Tk):
             "tokens": self.token_var.get(),
             "prompt": self.prompt_var.get(),
             "port": self._selected_device(),
-            "pc_script": self.pc_script_var.get(),
-            "pc_enabled": self.pc_enabled_var.get(),
         }
         try:
             self.settings_path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -918,7 +654,6 @@ class NanoGptHostApp(tk.Tk):
 
     def _on_close(self) -> None:
         self._save_settings()
-        self.pc_worker.stop()
         self.worker.disconnect()
         self.destroy()
 

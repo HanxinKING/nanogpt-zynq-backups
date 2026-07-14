@@ -29,13 +29,7 @@ output:  the sea
 ## 源码运行
 
 ```powershell
-& 'D:\adanocode\python.exe' .\app.py
-```
-
-## 自动测试
-
-```powershell
-& 'D:\adanocode\python.exe' -m unittest discover -s .\tests -v
+python .\app.py
 ```
 
 ## 打包

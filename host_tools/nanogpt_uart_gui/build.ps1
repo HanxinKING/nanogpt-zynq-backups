@@ -1,5 +1,5 @@
 param(
-    [string]$Python = "D:\adanocode\python.exe"
+    [string]$Python = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -7,6 +7,10 @@ $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $dist = Join-Path $root "dist"
 $build = Join-Path $root "build"
 $exe = Join-Path $dist "KeChuangNanoGPT.exe"
+
+if (-not $Python) {
+    $Python = (Get-Command python -ErrorAction Stop).Source
+}
 
 if (-not (Test-Path -LiteralPath $Python)) {
     throw "Python not found: $Python"
@@ -25,13 +29,9 @@ $arguments = @(
     "-m", "PyInstaller",
     "--noconfirm",
     "--clean",
-    "--windowed",
-    "--onefile",
-    "--name", "KeChuangNanoGPT",
     "--distpath", $dist,
     "--workpath", $build,
-    "--specpath", $root,
-    (Join-Path $root "app.py")
+    (Join-Path $root "KeChuangNanoGPT.spec")
 )
 
 $process = Start-Process -FilePath $Python `

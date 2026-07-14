@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['F:\\nanogpt_ZYNQ\\nanogpt_ZYNQ\\host_tools\\nanogpt_uart_gui\\app.py'],
+    ['app.py'],
     pathex=[],
     binaries=[],
     datas=[],
